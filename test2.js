@@ -33,17 +33,17 @@ var test3 = "12 15 2\n";
 test3 = test3 + ".#..#.#.##.#...\n";
 test3 = test3 + "...##.A....##.#\n";
 test3 = test3 + ".###..###.###.#\n";
-test3 = test3 + "....###.#..#...\n";
+test3 = test3 + "....###....#...\n";
 test3 = test3 + "#.#......#...#.\n";
 test3 = test3 + "..#.##.#..#.##.\n";
 test3 = test3 + "..##...#.#..##.\n";
-test3 = test3 + "..###.#...#...#\n";
-test3 = test3 + ".####...#####.#\n";
-test3 = test3 + "####b.##..#..B.\n";
-test3 = test3 + "###.#.##.#..##.\n";
-test3 = test3 + "###.a.......#..\n";
-test3 = test3 + "1 1\n";
+test3 = test3 + "..###.#...#....\n";
+test3 = test3 + "B####...######.\n";
+test3 = test3 + ".###b.##..#..#.\n";
+test3 = test3 + ".###.#.##.#..#.\n";
+test3 = test3 + "..#.a........#.\n";
 test3 = test3 + "15 12\n";
+test3 = test3 + "1 12\n";
 
 
 var chunka = test3.split("\n");
@@ -80,9 +80,23 @@ for (var i = 0; i < width; i++) {
   }
 }
 value[startx][starty] = [[[startx, starty]], [], 0];
-search(startx, starty);
+
+
+var task = [];
+var taskmap = {};
+
+dotask();
 printout();
 
+function dotask(){
+  search(startx, starty);
+  while(task.length!=0){
+    var nowtask = task[0];
+    task=task.slice(1);
+    delete(taskmap[[nowtask[0],nowtask[1]]]);
+    search(nowtask[0],nowtask[1]);
+  }
+}
 
 function search(x, y) {
   var next = getnext(x, y);
@@ -100,19 +114,23 @@ function search(x, y) {
     } else if (mv >= "a" && mv <= "z") {
       cost = 1;
     } else if (mv >= "A" && mv <= "Z") {
-      if (item.indexOf(mv.charAt(0)) >= 0) {
+      var lmv = mv.toLowerCase();
+      if (item.indexOf(lmv.charAt(0)) >= 0) {
         cost = 1;
       } else {
         cost = 101;
       }
     }
-    if (nowcost + cost < ovalue[2]) {
-      var newvalue = [];
-      newvalue[0] = nvalue[0].concat([[nx, ny]]);
-      newvalue[1] = nvalue[1].concat(mv);
-      newvalue[2] = nowcost + cost;
-      value[nx][ny] = newvalue;
-      search(nx, ny);
+    if(taskmap[[nx,ny]]==undefined){
+      if (nowcost + cost < ovalue[2]) {
+        var newvalue = [];
+        newvalue[0] = nvalue[0].concat([[nx, ny]]);
+        newvalue[1] = nvalue[1].concat(mv);
+        newvalue[2] = nowcost + cost;
+        value[nx][ny] = newvalue;
+        task.push([nx,ny]);
+        taskmap[[nx,ny]]=newvalue;
+      }
     }
   }
 }
@@ -133,9 +151,7 @@ function getnext(x, y) {
   return ret;
 }
 
-function eq(p1, p2) {
-  return (p1[0] == p2[0]) && (p1[1] == p2[1])
-}
+
 
 function printout() {
   var vn = value[goalx][goaly];
@@ -160,26 +176,5 @@ function printout() {
   }
   console.log(ret);
 }
-
-function printvalue() {
-  for (var i = 0; i < width; i++) {
-    for (var j = 0; j < height; j++) {
-      if (value[i][j][2] < 9999) {
-        console.log(i, j);
-        route = value[i][j][0];
-        var routestr = "";
-        for (var k = 0; k < route.length; k++) {
-          routestr = routestr + "[" + route[k][0] + "," + route[k][1] + "],";
-        }
-        console.log(routestr);
-        console.log(value[i][j][1].join(''));
-        console.log(value[i][j][2]);
-        console.log();
-        console.log();
-      }
-    }
-  }
-}
-
 
 
