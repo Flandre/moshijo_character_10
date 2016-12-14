@@ -46,7 +46,7 @@ test3 = test3 + "15 12\n";
 test3 = test3 + "1 12\n";
 
 
-var chunka = test3.split("\n");
+var chunka = teststr.split("\n");
 var fl = chunka[0];
 var fla = fl.split(" ");
 var width = parseInt(fla[1]);
@@ -93,8 +93,11 @@ function dotask(){
   while(task.length!=0){
     var nowtask = task[0];
     task=task.slice(1);
-    delete(taskmap[[nowtask[0],nowtask[1]]]);
-    search(nowtask[0],nowtask[1]);
+    var ny = nowtask & 1023;
+    var nx = nowtask >> 10;
+    delete(taskmap[nowtask]);
+    //console.log(nx,ny);
+    search(nx,ny);
   }
 }
 
@@ -115,23 +118,42 @@ function search(x, y) {
       cost = 1;
     } else if (mv >= "A" && mv <= "Z") {
       var lmv = mv.toLowerCase();
-      if (item.indexOf(lmv.charAt(0)) >= 0) {
+      if (item.indexOf(lmv) >= 0) {
         cost = 1;
       } else {
         cost = 101;
       }
     }
-    if(taskmap[[nx,ny]]==undefined){
-      if (nowcost + cost < ovalue[2]) {
-        var newvalue = [];
-        newvalue[0] = nvalue[0].concat([[nx, ny]]);
-        newvalue[1] = nvalue[1].concat(mv);
-        newvalue[2] = nowcost + cost;
-        value[nx][ny] = newvalue;
-        task.push([nx,ny]);
-        taskmap[[nx,ny]]=newvalue;
+    var tcost = nowcost + cost;
+
+    if (tcost < ovalue[2]) {
+      var newtaskno = (nx<<10)+ny;
+      var queuedtask = taskmap[newtaskno];
+      if(queuedtask==undefined){
+        addtask(0,nvalue,nx,ny,mv,tcost,newtaskno);
+      }else{
+        var queuedtaskvalue = queuedtask[2];
+        if(tcost<queuedtaskvalue){
+          addtask(1,nvalue,nx,ny,mv,tcost,newtaskno);
+        }
       }
     }
+  }
+}
+
+function addtask(type,nvalue,nx,ny,mv,tcost,newtaskno){
+  var newvalue = [];
+  newvalue[0] = nvalue[0].concat([[nx, ny]]);
+  if(mv!="."){
+    newvalue[1] = nvalue[1].concat(mv);
+  }else{
+    newvalue[1] = nvalue[1];
+  }
+  newvalue[2] = tcost;
+  value[nx][ny] = newvalue;
+  taskmap[newtaskno]=newvalue;
+  if(type==0){
+    task.push(newtaskno);
   }
 }
 
