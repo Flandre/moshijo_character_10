@@ -31,13 +31,15 @@
       drawArr(playArr, count, width);
       count++;
     }
+
+
     // out
     console.log(playArr);
     var out = '';
     for (var i = 0; i < playArr.length; i++) {
-      if(playArr[i] < 10 || /[a-zA-Z#.]/.test(playArr[i])){
-        out = out+' '+playArr[i]
-      }else{
+      if (playArr[i] < 10 || /[a-zA-Z#.]/.test(playArr[i])) {
+        out = out + ' ' + playArr[i]
+      } else {
         out += playArr[i];
       }
       if ((i + 1) % width == 0) {
@@ -46,7 +48,19 @@
         out += '|'
       }
     }
-    console.log(out)
+    console.log(out);
+
+    // crete route
+    var routeArr = [], point = endIndex, str;
+    while (count != 0) {
+      str = route(playArr, point, width);
+      console.log(str);
+      routeArr.push(str.split('_')[0]);
+      point = parseInt(str.split('_')[1]);
+      count--;
+    }
+    console.log('routeArr');
+    console.log(routeArr.reverse().join('\n'));
   };
 
   function copyArr(arr) {
@@ -61,30 +75,37 @@
     arr.forEach(function (ele, idx) {
       if (ele == count) {
         // top
-        if (idx >= width) {
-          if (/[.a-zA-Z]/.test(arr[idx - width]))
-            arr[idx - width] = (count + 1)
-        }
+        if (idx >= width && /[.a-zA-Z]/.test(arr[idx - width]))
+          arr[idx - width] = (count + 1);
         // left
-        if (idx % width != 0) {
-          if (/[.a-zA-Z]/.test(arr[idx - 1]))
-            arr[idx - 1] = (count + 1)
-        }
+        if (idx % width != 0 && /[.a-zA-Z]/.test(arr[idx - 1]))
+          arr[idx - 1] = (count + 1);
         // right
-        if ((idx + 1) % width != 0) {
-          if (/[.a-zA-Z]/.test(arr[idx + 1]))
-            arr[idx + 1] = (count + 1)
-        }
+        if ((idx + 1) % width != 0 && /[.a-zA-Z]/.test(arr[idx + 1]))
+          arr[idx + 1] = (count + 1);
         // bottom
-        if ((idx + width) <= arr.length) {
-          if (/[.a-zA-Z]/.test(arr[idx + width]))
-            arr[idx + width] = (count + 1)
-        }
+        if ((idx + width) < arr.length && /[.a-zA-Z]/.test(arr[idx + width]))
+          arr[idx + width] = (count + 1);
+
       }
     });
   }
-  function routeArr(arr, point, width){
 
+  function route(arr, point, width) {
+    var check = arr[point] - 1;
+    console.log(check);
+    // top
+    if (point >= width && arr[point - width] == check)
+      return 'D_' + (point - width);
+    // left
+    if (point % width != 0 && arr[point - 1] == check)
+      return 'R_' + (point - 1);
+    // right
+    if ((point + 1) % width != 0 && arr[point + 1] == check)
+      return 'L_' + (point + 1);
+    // bottom
+    if ((point + width) < arr.length && arr[point + width] == check)
+      return 'U_' + (point + width)
   }
 </script>
 </body>
