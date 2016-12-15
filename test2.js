@@ -1,3 +1,5 @@
+var outvalue = [];
+
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
 // 自分の得意な言語で
@@ -45,10 +47,12 @@ process.stdin.on('data', function (chunk){
   var keylist = "";
   var routemap = {};
   init();
-  value[startx][starty] = [[[startx, starty]], [], 0];
+  value[startx][starty] = [[(startx<<10)+starty], [], 0];
 
   dotask();
   printout();
+  //console.log(value[goalx][goaly]);
+  outvalue = value;
 
   function init() {
     for (var i = 0; i < width; i++) {
@@ -84,16 +88,21 @@ process.stdin.on('data', function (chunk){
       }
     }
     for (var i = 0; i < item.length; i++) {
-      if (item[i] >= "A" && item[i] <= "Z" && willaddmap[item[i].toLowerCase()] == undefined) {
+      if (item[i] >= "A" && item[i] <= "Z") {
         keylist = keylist + item[i].toLowerCase();
       }
     }
     init();
-    value[startx][starty] = [[[startx, starty]], [], 0];
+    value[startx][starty] = [[(startx<<10)+starty], [], 0];
     search(startx, starty);
     while (task.length != 0) {
-      var nowtask = task[0];
-      task = task.slice(1);
+      var nowtask;
+      if(Math.random()<0.3){
+        nowtask = task[0];
+        task = task.slice(1);
+      }else{
+        nowtask = task.pop();
+      }
       var ny = nowtask & 1023;
       var nx = nowtask >> 10;
       delete(taskmap[nowtask]);
@@ -116,18 +125,28 @@ process.stdin.on('data', function (chunk){
       if (mv == ".") {
         cost = 1;
       } else if (mv >= "a" && mv <= "z") {
-        if (routemap[mv] == undefined) {
+        if (item.indexOf(mv)<0) {
           if (keylist.indexOf(mv) >= 0) {
-            cost = -99;
-            routemap[mv] = 1;
+            if(item.indexOf(mv.toUpperCase())>=0){
+              cost = 1;
+            }else{
+              cost = -99;
+            }
           } else {
             cost = 1;
           }
+        }else{
+          cost = 1;
         }
       } else if (mv >= "A" && mv <= "Z") {
         var lmv = mv.toLowerCase();
         if (item.indexOf(lmv) >= 0) {
-          cost = 1;
+          if(routemap[mv]==undefined){
+            cost = 101;
+            routemap[mv]=1;
+          }else{
+            cost = 1;
+          }
         } else {
           cost = 101;
         }
@@ -136,9 +155,10 @@ process.stdin.on('data', function (chunk){
 
       if (tcost < ovalue[2]) {
         var newtaskno = (nx << 10) + ny;
+        var oldtaskno = (x<<10)+y;
         var queuedtask = taskmap[newtaskno];
         if (queuedtask == undefined) {
-          addtask(0, nvalue, nx, ny, mv, tcost, newtaskno);
+          addtask(0, nvalue, nx, ny, mv, tcost, newtaskno,oldtaskno);
         } else {
           var queuedtaskvalue = queuedtask[2];
           if (tcost < queuedtaskvalue) {
@@ -149,9 +169,9 @@ process.stdin.on('data', function (chunk){
     }
   }
 
-  function addtask(type, nvalue, nx, ny, mv, tcost, newtaskno) {
+  function addtask(type, nvalue, nx, ny, mv, tcost, newtaskno,oldtaskno) {
     var newvalue = [];
-    newvalue[0] = nvalue[0].concat([[nx, ny]]);
+    newvalue[0] = nvalue[0].concat([(nx<<10)+ny]);
     if (mv != ".") {
       newvalue[1] = nvalue[1].concat(mv);
     } else {
@@ -182,13 +202,23 @@ process.stdin.on('data', function (chunk){
   }
 
 
+
+
   function printout() {
     var vn = value[goalx][goaly];
     var route = vn[0];
     var ret = "";
+
+
+
     for (var i = 0; i < route.length - 1; i++) {
-      var from = route[i];
-      var to = route[i + 1];
+      var fromint = route[i];
+      var fromx = fromint >> 10;
+      var fromy = fromint & 1023;
+
+      var from = [fromint>>10,fromint&1023];
+      var toint = route[i+1];
+      var to = [toint>>10,toint&1023];
       if (from[0] != to[0]) {
         if (from[0] - 1 == to[0]) {
           ret = ret + "L\n";
