@@ -7,7 +7,18 @@
 <body>
 <textarea id="data" style="width: 400px;height: 300px; font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;"></textarea>
 <button id="btn" style="display: block;">输出</button>
+<button onclick="save();">save</button>
 <script>
+  function save(){
+    var value = document.getElementById("data").value;
+    localStorage.setItem("data",value);
+  }
+
+  function load(){
+    value = localStorage.getItem("data");
+    document.getElementById("data").value = value;
+  }
+  load();
   var process = {
     stdin: {
       on: function (id, func) {
@@ -22,6 +33,6 @@
     }
   };
 </script>
-<script type="text/javascript" src="test_2.js"></script>
+<script type="text/javascript" src="test2.js"></script>
 </body>
 </html>
