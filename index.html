@@ -16,7 +16,10 @@
 
   function load(){
     value = localStorage.getItem("data");
-    document.getElementById("data").value = value;
+    if(value!=undefined){
+      document.getElementById("data").value = value;
+    }
+
   }
   load();
   var process = {
