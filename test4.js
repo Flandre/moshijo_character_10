@@ -5,11 +5,7 @@ process.stdin.setEncoding('utf8');
 // 自分の得意な言語で
 // Let's チャレンジ！！
 process.stdin.on('data', function (chunk) {
-  body += chunk;
-});
-
-process.stdin.on('end', function () {
-  var bodya = body.split("\n");
+  var bodya = chunk.split("\n");
   var n = parseInt(bodya[0]);
   var costa = bodya[1].split(" ");
   var costfuture = parseInt(costa[0]);
@@ -24,8 +20,8 @@ process.stdin.on('end', function () {
       st[i]=0;
     }
   }
-  queue.push([[n-1],{},0,st]);
-  var mincost = 999999;
+  queue.push([[n-1],0,st]);
+  var mincost = 99999999;
   var route = [];
   var flag = false;
   while(queue.length>0){
@@ -33,9 +29,8 @@ process.stdin.on('end', function () {
     queue = queue.slice(1);
     for(var i=0;i<n;i++){
       var his = now[0];
-      var map = now[1];
-      var oldcost = now[2];
-      var nowst = now[3];
+      var oldcost = now[1];
+      var nowst = now[2];
 
       if(nowst[i]==1){
         var lastpoint = his[his.length-1];
@@ -59,7 +54,7 @@ process.stdin.on('end', function () {
           }else{
             newcost = newcost + costpast;
           }
-          var newpoint = [newhis,{},newcost,newst];
+          var newpoint = [newhis,newcost,newst];
           var finish = true;
           for(var j=0;j<n;j++){
             if(newhis.indexOf(j)==-1){
@@ -71,12 +66,38 @@ process.stdin.on('end', function () {
             flag = true;
             if(newst[n-1]==0){
               if(i!=0){
-                var totalcost = newcost + costpast + costfuture;
-                if(totalcost<mincost){
-                  mincost = totalcost;
-                  route = newhis;
-                  route.push(0);
-                  route.push(n-1);
+                if(costpast < costfuture){
+                  var totalcost = newcost + costpast + costfuture;
+                  if(totalcost<mincost){
+                    mincost = totalcost;
+                    route = newhis;
+                    route.push(0);
+                    route.push(n-1);
+                  }
+                }else{
+                  var can = false;
+                  for(var j=i+1;j<n;j++){
+                    if(newst[j]==1){
+                      can = true;
+                      totalcost = newcost + costfuture + costfuture;
+                      if(totalcost<mincost){
+                        mincost = totalcost;
+                        route = newhis;
+                        route.push(j);
+                        route.push(n-1);
+                      }
+                      break;
+                    }
+                  }
+                  if(can == false){
+                    var totalcost = newcost + costpast + costfuture;
+                    if(totalcost<mincost){
+                      mincost = totalcost;
+                      route = newhis;
+                      route.push(0);
+                      route.push(n-1);
+                    }
+                  }
                 }
               }else{
                 var can = false;
@@ -93,7 +114,7 @@ process.stdin.on('end', function () {
                     break;
                   }
                 }
-                if(can = false){
+                if(can == false){
                   flag = false;
                 }
               }
