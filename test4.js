@@ -134,7 +134,7 @@ process.stdin.on('data', function (chunk) {
         }
       }
     }
-    queue.sort(function(a,b){return a[2]-b[2]});
+    queue.sort(function(a,b){return a[1]-b[1]});
   }
   var output = "";
   for(var i=0;i<route.length;i++){
