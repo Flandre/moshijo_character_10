@@ -101,7 +101,7 @@ process.stdin.on('data', function (chunk) {
                 }
               }else{
                 var can = false;
-                for(var j=0;j<n;j++){
+                for(var j=1;j<n;j++){
                   if(newst[j]==1){
                     can = true;
                     totalcost = newcost + costfuture + costfuture;
