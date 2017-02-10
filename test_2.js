@@ -98,30 +98,39 @@ process.stdin.on('data', function (chunk) {
 
   // 标记相邻点
   function mark(arr, x, y, count) {
+    var t = '';
     // left
-    if (x != 0)
-      if (/^[.a-z]$/.test(arr[y][x - 1]))
+    if (x != 0) {
+      t = arr[y][x - 1];
+      if ((t >= "a" && t <= "z") || t == '.')
         arr[y][x - 1] = count + 1;
-      else if (/^[A-Z]$/.test(arr[y][x - 1]))
+      else if (t >= "A" && t <= "Z")
         arr[y][x - 1] = count + 100;
+    }
     // right
-    if (x != width - 1)
-      if (/^[.a-z]$/.test(arr[y][x + 1]))
+    if (x != width - 1) {
+      t = arr[y][x + 1];
+      if ((t >= "a" && t <= "z") || t == '.')
         arr[y][x + 1] = count + 1;
-      else if (/^[A-Z]$/.test(arr[y][x + 1]))
+      else if (t >= "A" && t <= "Z")
         arr[y][x + 1] = count + 100;
+    }
     // top
-    if (y != 0)
-      if (/^[.a-z]$/.test(arr[y - 1][x]))
+    if (y != 0) {
+      t = arr[y - 1][x];
+      if ((t >= "a" && t <= "z") || t == '.')
         arr[y - 1][x] = count + 1;
-      else if (/^[A-Z]$/.test(arr[y - 1][x]))
+      else if (t >= "A" && t <= "Z")
         arr[y - 1][x] = count + 100;
+    }
     // bottom
-    if (y != height - 1)
-      if (/^[.a-z]$/.test(arr[y + 1][x]))
+    if (y != height - 1) {
+      t = arr[y + 1][x];
+      if ((t >= "a" && t <= "z") || t == '.')
         arr[y + 1][x] = count + 1;
-      else if (/^[A-Z]$/.test(arr[y + 1][x]))
+      else if (t >= "A" && t <= "Z")
         arr[y + 1][x] = count + 100;
+    }
   }
 
   // 生成路线
@@ -129,25 +138,25 @@ process.stdin.on('data', function (chunk) {
     var count = arr[ey][ex], routeArr = [], x = ex, y = ey, min = 9999, rc = '';
     while (count != 0) {
       // left
-      if (x != 0 && /^\d+$/.test(arr[y][x - 1] + '') && arr[y][x - 1] < min) {
+      if (x != 0 && arr[y][x - 1] != '#' && arr[y][x - 1] < min) {
         min = arr[y][x - 1];
         rc = 'R'
       }
       // right
-      if (x != width - 1 && /^\d+$/.test(arr[y][x + 1] + '') && arr[y][x + 1] < min) {
+      if (x != width - 1 && arr[y][x + 1] != '#' && arr[y][x + 1] < min) {
         min = arr[y][x + 1];
         rc = 'L'
       }
-      if (y != 0 && /^\d+$/.test(arr[y - 1][x] + '') && arr[y - 1][x] < min) {
+      if (y != 0 && [y - 1][x] != '#' && arr[y - 1][x] < min) {
         min = arr[y - 1][x];
         rc = 'D'
       }
-      if (y != height - 1 && /^\d+$/.test(arr[y + 1][x] + '') && arr[y + 1][x] < min) {
+      if (y != height - 1 && arr[y + 1][x] != '#' && arr[y + 1][x] < min) {
         min = arr[y + 1][x];
         rc = 'U'
       }
 
-      switch (rc){
+      switch (rc) {
         case 'R':
           x--;
           break;
