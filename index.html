@@ -22,24 +22,30 @@
 
   }
   load();
+  var func1;
+  var func2;
   var process = {
-    stdin: {
-      on: function (id, func) {
-        if(id=="data"){
-          func(document.getElementById("data").value);
-        }
-        if(id=="end"){
-          document.getElementById('btn').onclick = function () {
-            func();
+      stdin: {
+        on: function (id, func) {
+          if(id=="data"){
+            func1=func;
           }
+          if(id=="end"){
+            func2=func;
+          }
+        },
+        resume: function () {
+        },
+        setEncoding: function (enc) {
         }
-      },
-      resume: function () {
-      },
-      setEncoding: function (enc) {
       }
     }
-  };
+
+  document.getElementById('btn').onclick = function () {
+    func1(document.getElementById("data").value);
+    func2();
+  }
+
 </script>
 <script type="text/javascript" src="a009s.js"></script>
 </body>
