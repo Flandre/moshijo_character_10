@@ -6,6 +6,7 @@
 </head>
 <body>
 <textarea id="data" style="width: 400px;height: 300px; font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;"></textarea>
+<button id="ipt" style="display: block;">输入</button>
 <button id="btn" style="display: block;">输出</button>
 <button onclick="save();">save</button>
 <script>
@@ -25,9 +26,15 @@
   var process = {
     stdin: {
       on: function (id, func) {
-        document.getElementById('btn').onclick = function () {
-          func(document.getElementById(id).value);
-        };
+        switch(id){
+          case 'end':
+            document.getElementById('btn').onclick = function () {
+              func()
+            }; break;
+          default: document.getElementById('ipt').onclick = function () {
+            func(document.getElementById(id).value)
+          }; break;
+        }
       },
       resume: function () {
       },
@@ -36,6 +43,6 @@
     }
   };
 </script>
-<script type="text/javascript" src="test_S002.js"></script>
+<script type="text/javascript" src="test_A009.js"></script>
 </body>
 </html>
