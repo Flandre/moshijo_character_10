@@ -26,14 +26,7 @@
     stdin: {
       on: function (id, func) {
         document.getElementById('btn').onclick = function () {
-          switch (id) {
-            case 'data':
-              func(document.getElementById(id).value);
-              break;
-            case 'end':
-              func();
-              break;
-          }
+          func(document.getElementById("data").value);
         }
       },
       resume: function () {
