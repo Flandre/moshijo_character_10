@@ -9,8 +9,13 @@
 <button id="btn" style="display: block;">输出</button>
 <button onclick="save();">save</button>
 <script>
+  var value, func1, func2 = function(){}, temp = {}, oldWinObj = [], newWinObj = [], globs = [], _i, _init = false;
+  oldWinObj = Object.keys(window);
+  for(_i = 0; _i < oldWinObj.length; _i++){
+    temp[oldWinObj[_i]] = true;
+  }
   function save(){
-    var value = document.getElementById("data").value;
+    value = document.getElementById("data").value;
     localStorage.setItem("data",value);
   }
 
@@ -22,8 +27,6 @@
 
   }
   load();
-  var func1;
-  var func2 = function(){};
   var process = {
       stdin: {
         on: function (id, func) {
@@ -39,15 +42,27 @@
         setEncoding: function (enc) {
         }
       }
-    }
+    };
 
   document.getElementById('btn').onclick = function () {
-    body="";
     func1(document.getElementById("data").value);
     func2();
+    if(!_init){
+      newWinObj = Object.keys(window);
+      for(_i = 0; _i < newWinObj.length; _i++){
+        if(!temp[newWinObj[_i]]){
+          console.log('---')
+          globs.push(newWinObj[_i])
+        }
+      }
+      _init = true;
+    }
+    for(_i = 0; _i < globs.length; _i++){
+      window[globs[_i]] = '';
+    }
   }
 
 </script>
-<script type="text/javascript" src="test_A009.js"></script>
+<script type="text/javascript" src="a009s.js"></script>
 </body>
 </html>
