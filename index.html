@@ -35,7 +35,7 @@
   console.oldLog = console.log;
   console.log=function(x){
     console.oldLog(x);
-    document.getElementById("dataout").innerHTML=x;
+    document.getElementById("dataout").innerHTML=document.getElementById("dataout").innerHTML+x;
   }
   var process = {
       stdin: {
@@ -56,6 +56,7 @@
 
   document.getElementById('btn').onclick = function () {
     console.clear();
+    document.getElementById("dataout").innerHTML='';
     func1(document.getElementById("data").value);
     func2();
     if(!_init){
