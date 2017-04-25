@@ -35,7 +35,7 @@
   console.oldLog = console.log;
   console.log=function(x){
     console.oldLog(x);
-    document.getElementById("dataout").innerHTML=document.getElementById("dataout").innerHTML+x;
+    document.getElementById("dataout").innerHTML=document.getElementById("dataout").innerHTML+x.replace(/\n/g," ")+"\n";
   }
   var process = {
       stdin: {
@@ -74,6 +74,6 @@
   }
 
 </script>
-<script type="text/javascript" src="moshijonew.js"></script>
+<script type="text/javascript" src="moshijo.js"></script>
 </body>
 </html>
