@@ -5,7 +5,12 @@
   <title>Title</title>
 </head>
 <body>
-<textarea id="data" style="width: 400px;height: 300px; font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;"></textarea>
+<table><tr><td>
+  <textarea id="data" style="width: 400px;height: 300px; font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;"></textarea>
+</td><td>
+  <textarea id="dataout" style="width: 400px;height: 300px; font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;"></textarea>
+</td></tr></table>
+
 <button id="btn" style="display: block;">输出</button>
 <button onclick="save();">save</button>
 <script>
@@ -27,6 +32,11 @@
 
   }
   load();
+  console.oldLog = console.log;
+  console.log=function(x){
+    console.oldLog(x);
+    document.getElementById("dataout").innerHTML=x;
+  }
   var process = {
       stdin: {
         on: function (id, func) {
