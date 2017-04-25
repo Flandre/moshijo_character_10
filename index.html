@@ -35,7 +35,9 @@
   console.oldLog = console.log;
   console.log=function(x){
     console.oldLog(x);
-    document.getElementById("dataout").innerHTML=document.getElementById("dataout").innerHTML+x.replace(/\n/g," ")+"\n";
+    document.getElementById("dataout").innerHTML=document.getElementById("dataout").innerHTML+
+      (x.substring?x.replace(/\n/g," "):JSON.stringify(x))
+      +"\n";
   }
   var process = {
       stdin: {

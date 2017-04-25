@@ -46,6 +46,7 @@ process.stdin.on('data', function (chunk) {
   var maxdmg = 999999;
   var save = [];
   var keylist = "";
+  var keylistR = "";
   var routemap = {};
 
   outvalue = value;
@@ -82,7 +83,7 @@ process.stdin.on('data', function (chunk) {
   run();
 
   function run(){
-    for(var k=0;k<4;k++){
+    for(var k=0;k<2;k++){
       dotask(1);
       var item = value[getKeyByXY(goalx,goaly)][1];
       for (var i = 0; i < item.length; i++) {
@@ -99,6 +100,53 @@ process.stdin.on('data', function (chunk) {
       }
     }
     dotask(1);
+
+    if(Math.random()<0.2){
+      for(var k=0;k<2;k++){
+        dotask(2);
+        var item = valueR[getKeyByXY(startx,starty)][1];
+        for (var i = 0; i < item.length; i++) {
+          if (item[i] >= "A" && item[i] <= "Z" && keylistR.indexOf(item[i].toLowerCase())==-1) {
+            keylistR = keylistR + item[i].toLowerCase();
+            var kv = valueR[keymap[item[i].toLowerCase()]][1];
+            for(var j=0;j<kv.length;j++){
+              if (kv[j] >= "A" && kv[j] <= "Z" && keylistR.indexOf(kv[j].toLowerCase())==-1) {
+                keylistR = keylistR + kv[j].toLowerCase();
+              }
+            }
+          }
+        }
+      }
+      dotask(2);
+      var dmg1 = value[getKeyByXY(goalx,goaly)][2];
+      var dmg2 = valueR[getKeyByXY(startx,starty)][2];
+      var item2 = valueR[getKeyByXY(startx,starty)][1];
+      for(var i=0;i<item2.length;i++){
+        if(item[i] >= "A" && item[i] <= "Z"){
+          for(var j=i;j<item2.length;j++){
+            if(item2[j]==item[i].toLowerCase()){
+              dmg2=dmg2-100;
+              break;
+            }
+          }
+        }
+      }
+
+      if(dmg1<dmg2){
+        printout();
+      }else{
+        printout2();
+      }
+    }else{
+      printout();
+    }
+
+
+
+
+    //printout();
+
+
   }
 
   function bestroute(){
@@ -120,7 +168,6 @@ process.stdin.on('data', function (chunk) {
     }
   }
 
-  printout();
   function dotask(type){
     if(type==1){
       init();
@@ -146,11 +193,15 @@ process.stdin.on('data', function (chunk) {
 
   function search(x,y,type){
     var rv;
+    var rk;
     if(type==1){
       rv=value;
+      rk=keylist;
     }else{
       rv=valueR;
+      rk=keylistR;
     }
+
     var xykey = getKeyByXY(x,y);
     var xyvalue = rv[xykey];
     var oroute = xyvalue[0];
@@ -167,7 +218,7 @@ process.stdin.on('data', function (chunk) {
       var ndmg = nvalue[2];
       var cost;
       if(mv>='a'&&mv<='z'){
-        if(keylist.indexOf(mv)>=0){
+        if(rk.indexOf(mv)>=0){
           if(oitem.indexOf(mv)>=0){
             cost=1;
           }else{
@@ -252,7 +303,6 @@ process.stdin.on('data', function (chunk) {
     var ret = "";
     for (var i = 0; i < route.length - 1; i++) {
       var fromint = getXYByKey(route[i]);
-
       var from = [fromint[0],fromint[1]];
       var toint = getXYByKey(route[i+1]);
       var to = [toint[0],toint[1]];
@@ -273,15 +323,45 @@ process.stdin.on('data', function (chunk) {
     console.log(ret);
   }
 
+  function printout2() {
+    var vn = valueR[getKeyByXY(startx,starty)];
+    var route = vn[0];
+    var ret = "";
+    for (var i = 0; i < route.length - 1; i++) {
+      var fromint = getXYByKey(route[i]);
+
+      var from = [fromint[0],fromint[1]];
+      var toint = getXYByKey(route[i+1]);
+      var to = [toint[0],toint[1]];
+      if (from[0] != to[0]) {
+        if (from[0] - 1 == to[0]) {
+          ret = ret + "R\n";
+        } else {
+          ret = ret + "L\n"
+        }
+      } else {
+        if (from[1] - 1 == to[1]) {
+          ret = ret + "D\n";
+        } else {
+          ret = ret + "U\n"
+        }
+      }
+    }
+    console.log(ret.trim().split('\n').reverse().join('\n'));
+
+  }
+
 
 
 
   function getKeyByXY(x,y){
-    return (x+1)+1000*(y+1);
+    //return (x+1)+1000*(y+1);
+    return x+(y<<10);
   }
 
   function getXYByKey(xykey){
-    return [xykey%1000-1,Math.floor(xykey/1000)-1];
+    //return [xykey%1000-1,Math.floor(xykey/1000)-1];
+    return [xykey&1023,xykey>>10];
   }
 
 
