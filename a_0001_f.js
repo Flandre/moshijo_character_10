@@ -48,7 +48,7 @@ reader.on('close', () => {
                   l: startLeft + infos[i].w + 1,
                   t: startTop + 1,
                   h: infos[i].h,
-                  w: width - (startLeft + infos[i].w + 1),
+                  w: width - (infos[i].w + 1),
                   d: new Set(['t', 'l', 'b'])
                 })
               }
@@ -68,7 +68,7 @@ reader.on('close', () => {
                   l: startLeft + infos[i].w + 1,
                   t: startTop + 1,
                   h: infos[i].h,
-                  w: width - (startLeft + infos[i].w + 1),
+                  w: width - (infos[i].w + 1),
                   d: new Set(['l', 'b'])
                 })
               }
@@ -88,7 +88,7 @@ reader.on('close', () => {
                   l: startLeft + infos[i].w + 1,
                   t: startTop + 1,
                   h: infos[i].h,
-                  w: width - (startLeft + infos[i].w + 1),
+                  w: width - (infos[i].w + 1),
                   d: new Set(['l', 'b'])
                 })
               }
@@ -108,7 +108,7 @@ reader.on('close', () => {
                   l: startLeft + infos[i].w + 1,
                   t: startTop + 1,
                   h: infos[i].h,
-                  w: width - (startLeft + infos[i].w + 1),
+                  w: width - (infos[i].w + 1),
                   d: new Set(['l', 'b'])
                 })
               }
@@ -151,10 +151,10 @@ reader.on('close', () => {
               if(width - (startLeft + infos[i].w + 1) >=2){
                 drawArr.push({
                   l: startLeft + infos[i].w + 1,
-                  t: startTop + 1,
-                  h: infos[i].h,
-                  w: width - (startLeft + infos[i].w + 1),
-                  d: new Set(['t', 'l', 'b'])
+                  t: startTop,
+                  h: infos[i].h + 1,
+                  w: width - (infos[i].w + 1),
+                  d: new Set(['l', 'b'])
                 })
               }
               break
@@ -165,16 +165,16 @@ reader.on('close', () => {
                   t: startTop + infos[i].h + 1,
                   h: height - (startTop + infos[i].h + 1),
                   w: width,
-                  d: new Set(['t', 'l'])
+                  d: new Set(['t'])
                 })
               }
               if(width - (startLeft + infos[i].w + 1) >=2){
                 drawArr.push({
                   l: startLeft + infos[i].w + 1,
-                  t: startTop + 1,
+                  t: startTop,
                   h: infos[i].h,
-                  w: width - (startLeft + infos[i].w + 1),
-                  d: new Set(['l', 'b'])
+                  w: width - (infos[i].w + 1),
+                  d: new Set(['b'])
                 })
               }
               break
@@ -188,13 +188,13 @@ reader.on('close', () => {
                   d: new Set(['t'])
                 })
               }
-              if(width - (startLeft + infos[i].w + 1) >=2){
+              if(width - (startLeft + infos[i].w) >=2){
                 drawArr.push({
-                  l: startLeft + infos[i].w + 1,
-                  t: startTop + 1,
+                  l: startLeft + infos[i].w,
+                  t: startTop,
                   h: infos[i].h,
-                  w: width - (startLeft + infos[i].w + 1),
-                  d: new Set(['l', 'b'])
+                  w: width - infos[i].w,
+                  d: new Set(['b'])
                 })
               }
               break
@@ -211,9 +211,9 @@ reader.on('close', () => {
               if(width - (startLeft + infos[i].w + 1) >=2){
                 drawArr.push({
                   l: startLeft + infos[i].w + 1,
-                  t: startTop + 1,
+                  t: startTop,
                   h: infos[i].h,
-                  w: width - (startLeft + infos[i].w + 1),
+                  w: width - (infos[i].w + 1),
                   d: new Set(['l', 'b'])
                 })
               }
