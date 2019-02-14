@@ -82,19 +82,36 @@ function run(la){
   }
   house.sort(function(a,b){return b.size-a.size});
 
-  inserthouse(ta,house,0);
+  for(var i=0;i<house.length;i++){
+    var hasin = inserthouse(ta,house,i,0,0,w,h);
+  }
+
 
   print(ta);
 }
 
-function inserthouse(ta,house,k){
+function inserthouse(ta,house,k,mleft,mup,mw,mh){
   var ff = house[k];
+  //console.log(ff);
+  if(ff==undefined){
+    return;
+  }
   var fromh;
   var toh;
   var fromw;
   var tow;
-  var h = ta.length;
-  var w = ta[0].length;
+  var h = mh;
+  var w = mw;
+  if(ff.hd>h||ff.wd>w){
+    return;
+  }
+  if(ff.hd==h&&ff.wd==w){
+    //TODO
+  }
+
+
+
+
   if(ff.u){
     fromh = h-ff.hd;
     toh = h;
@@ -137,10 +154,23 @@ function inserthouse(ta,house,k){
     }
   }
 
-  for(var i=fromh;i<toh;i++){
-    for(var j=fromw;j<tow;j++){
-      ta[i][j]=ff.k;
+  var willinsert = true;
+  for(var i=fromh+mup;i<toh+mup;i++){
+    for(var j=fromw+mleft;j<tow+mleft;j++){
+      if(ta[i][j]!=0){
+        willinsert=false;
+      }
     }
+  }
+  if(willinsert){
+    for(var i=fromh+mup;i<toh+mup;i++){
+      for(var j=fromw+mleft;j<tow+mleft;j++){
+        ta[i][j]=ff.k;
+      }
+    }
+    return 1;
+  }else{
+    return 0;
   }
 }
 
