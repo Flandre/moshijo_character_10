@@ -43,13 +43,13 @@ reader.on('close', () => {
                   d: new Set(['t'])
                 })
               }
-              if(width - (infos[i].w + 1) >=2){
+              if(width - (infos[i].w) >=2){
                 drawArr.push({
-                  l: startLeft + infos[i].w + 1,
+                  l: startLeft + infos[i].w,
                   t: startTop,
                   h: infos[i].h,
-                  w: width - (infos[i].w + 1),
-                  d: new Set(['t', 'l', 'b'])
+                  w: width - (infos[i].w),
+                  d: new Set(['t', 'b'])
                 })
               }
               break
@@ -84,13 +84,13 @@ reader.on('close', () => {
               //     d: new Set(['t'])
               //   })
               // }
-              if(width - (infos[i].w + 1) >=2){
+              if(width - (infos[i].w) >=2){
                 drawArr.push({
-                  l: startLeft + infos[i].w + 1,
+                  l: startLeft + infos[i].w,
                   t: startTop,
                   h: infos[i].h,
-                  w: width - (infos[i].w + 1),
-                  d: new Set(['b', 'l'])
+                  w: width - (infos[i].w),
+                  d: new Set(['b'])
                 })
               }
               break
@@ -150,13 +150,13 @@ reader.on('close', () => {
                   d: new Set(['t'])
                 })
               }
-              if(width - (infos[i].w + 1) >=2){
+              if(width - (infos[i].w) >=2){
                 drawArr.push({
-                  l: startLeft + infos[i].w + 1,
+                  l: startLeft + infos[i].w,
                   t: startTop,
                   h: infos[i].h + 1,
-                  w: width - (infos[i].w + 1),
-                  d: new Set(['l', 'b'])
+                  w: width - (infos[i].w),
+                  d: new Set(['b'])
                 })
               }
               break
@@ -190,13 +190,13 @@ reader.on('close', () => {
                   d: new Set(['t'])
                 })
               }
-              if(width - (infos[i].w - 1) >=2){
+              if(width - (infos[i].w) >=2){
                 drawArr.push({
-                  l: startLeft + infos[i].w + 1,
+                  l: startLeft + infos[i].w,
                   t: startTop,
                   h: infos[i].h,
-                  w: width - (infos[i].w + 1),
-                  d: new Set(['b', 'l'])
+                  w: width - (infos[i].w),
+                  d: new Set(['b'])
                 })
               }
               break

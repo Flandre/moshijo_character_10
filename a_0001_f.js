@@ -190,7 +190,7 @@ reader.on('close', () => {
                   d: new Set(['t'])
                 })
               }
-              if(width - (infos[i].w - 1) >=2){
+              if(width - (infos[i].w + 1) >=2){
                 drawArr.push({
                   l: startLeft + infos[i].w + 1,
                   t: startTop,
