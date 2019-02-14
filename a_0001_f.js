@@ -25,7 +25,7 @@ reader.on('close', () => {
     }
   }).slice(1).sort((a, b) => b.size - a.size)
 
-  let startLeft = 0, startTop = 0, renderCount = 0, drawArr = []
+  let drawArr = []
 
   const search = (startLeft, startTop, width, height, dw) => {
     for(let i = 0; i < infos.length; i ++){
@@ -34,19 +34,19 @@ reader.on('close', () => {
           render(startLeft, startTop, infos[i])
           switch(infos[i].d){
             case 't':
-              if(height - (startTop + infos[i].h + 2) >= 2){
+              if(height - (infos[i].h + 1) >= 2){
                 drawArr.push({
                   l: startLeft,
-                  t: startTop + infos[i].h + 2,
-                  h: height - (startTop + infos[i].h + 2),
+                  t: startTop + infos[i].h + 1,
+                  h: height - (infos[i].h + 1),
                   w: width,
                   d: new Set(['t'])
                 })
               }
-              if(width - (startLeft + infos[i].w + 1) >=2){
+              if(width - (infos[i].w + 1) >=2){
                 drawArr.push({
                   l: startLeft + infos[i].w + 1,
-                  t: startTop + 1,
+                  t: startTop,
                   h: infos[i].h,
                   w: width - (infos[i].w + 1),
                   d: new Set(['t', 'l', 'b'])
@@ -54,64 +54,66 @@ reader.on('close', () => {
               }
               break
             case 'l':
-              if(height - (startTop + infos[i].h + 1) >= 2){
+              if(height - (infos[i].h + 1) >= 2){
                 drawArr.push({
                   l: startLeft,
                   t: startTop + infos[i].h + 1,
-                  h: height - (startTop + infos[i].h + 1),
+                  h: height - (infos[i].h + 1),
                   w: width,
-                  d: new Set(['t', 'l'])
+                  d: new Set(['l', 't'])
                 })
               }
-              if(width - (startLeft + infos[i].w + 1) >=2){
+              if(width - (infos[i].w) >=2){
                 drawArr.push({
-                  l: startLeft + infos[i].w + 1,
-                  t: startTop + 1,
+                  l: startLeft + infos[i].w,
+                  t: startTop,
                   h: infos[i].h,
-                  w: width - (infos[i].w + 1),
-                  d: new Set(['l', 'b'])
+                  w: width - infos[i].w,
+                  d: new Set(['b'])
                 })
               }
               break
             case 'b':
-              if(height - (startTop + infos[i].h + 1) >= 2){
-                drawArr.push({
-                  l: startLeft,
-                  t: startTop + infos[i].h + 1,
-                  h: height - (startTop + infos[i].h + 1),
-                  w: width,
-                  d: new Set(['t'])
-                })
-              }
-              if(width - (startLeft + infos[i].w + 1) >=2){
+              /* 不存在下方 */
+              // if(height - (infos[i].h + 1) >= 2){
+              //   drawArr.push({
+              //     l: startLeft,
+              //     t: startTop + infos[i].h + 1,
+              //     h: height - (infos[i].h + 1),
+              //     w: width,
+              //     d: new Set(['t'])
+              //   })
+              // }
+              if(width - (infos[i].w + 1) >=2){
                 drawArr.push({
                   l: startLeft + infos[i].w + 1,
-                  t: startTop + 1,
+                  t: startTop,
                   h: infos[i].h,
                   w: width - (infos[i].w + 1),
-                  d: new Set(['l', 'b'])
+                  d: new Set(['b', 'l'])
                 })
               }
               break
             case 'r':
-              if(height - (startTop + infos[i].h + 1) >= 2){
+              if(height - (infos[i].h + 1) >= 2){
                 drawArr.push({
                   l: startLeft,
                   t: startTop + infos[i].h + 1,
-                  h: height - (startTop + infos[i].h + 1),
+                  h: height - (infos[i].h + 1),
                   w: width,
-                  d: new Set(['t'])
+                  d: new Set(['t', 'r'])
                 })
               }
-              if(width - (startLeft + infos[i].w + 1) >=2){
-                drawArr.push({
-                  l: startLeft + infos[i].w + 1,
-                  t: startTop + 1,
-                  h: infos[i].h,
-                  w: width - (infos[i].w + 1),
-                  d: new Set(['l', 'b'])
-                })
-              }
+              /* 不存在右方 */
+              // if(width - (infos[i].w + 1) >=2){
+              //   drawArr.push({
+              //     l: startLeft + infos[i].w + 1,
+              //     t: startTop,
+              //     h: infos[i].h,
+              //     w: width - (infos[i].w + 1),
+              //     d: new Set(['l', 'b'])
+              //   })
+              // }
               break
           }
           infos.splice(i, 1)
@@ -139,16 +141,16 @@ reader.on('close', () => {
           render(tmpLeft, tmpTop, infos[i])
           switch(infos[i].d){
             case 't':
-              if(height - (startTop + infos[i].h + 2) >= 2){
+              if(height - (infos[i].h + 1) >= 2){
                 drawArr.push({
                   l: startLeft,
                   t: startTop + infos[i].h + 2,
-                  h: height - (startTop + infos[i].h + 2),
+                  h: height - (infos[i].h + 2),
                   w: width,
                   d: new Set(['t'])
                 })
               }
-              if(width - (startLeft + infos[i].w + 1) >=2){
+              if(width - (infos[i].w + 1) >=2){
                 drawArr.push({
                   l: startLeft + infos[i].w + 1,
                   t: startTop,
@@ -159,16 +161,16 @@ reader.on('close', () => {
               }
               break
             case 'l':
-              if(height - (startTop + infos[i].h + 1) >= 2){
+              if(height - (infos[i].h + 1) >= 2){
                 drawArr.push({
                   l: startLeft,
                   t: startTop + infos[i].h + 1,
-                  h: height - (startTop + infos[i].h + 1),
+                  h: height - (infos[i].h + 1),
                   w: width,
                   d: new Set(['t'])
                 })
               }
-              if(width - (startLeft + infos[i].w + 1) >=2){
+              if(width - (infos[i].w) >=2){
                 drawArr.push({
                   l: startLeft + infos[i].w + 1,
                   t: startTop,
@@ -179,7 +181,7 @@ reader.on('close', () => {
               }
               break
             case 'b':
-              if(height - (startTop + infos[i].h + 1) >= 2){
+              if(height - (infos[i].h + 1) >= 2){
                 drawArr.push({
                   l: startLeft,
                   t: startTop + infos[i].h + 1,
@@ -188,18 +190,18 @@ reader.on('close', () => {
                   d: new Set(['t'])
                 })
               }
-              if(width - (startLeft + infos[i].w) >=2){
+              if(width - (infos[i].w - 1) >=2){
                 drawArr.push({
-                  l: startLeft + infos[i].w,
+                  l: startLeft + infos[i].w + 1,
                   t: startTop,
                   h: infos[i].h,
-                  w: width - infos[i].w,
-                  d: new Set(['b'])
+                  w: width - (infos[i].w + 1),
+                  d: new Set(['b', 'l'])
                 })
               }
               break
             case 'r':
-              if(height - (startTop + infos[i].h + 1) >= 2){
+              if(height - (infos[i].h + 1) >= 2){
                 drawArr.push({
                   l: startLeft,
                   t: startTop + infos[i].h + 1,
@@ -208,7 +210,7 @@ reader.on('close', () => {
                   d: new Set(['t'])
                 })
               }
-              if(width - (startLeft + infos[i].w + 1) >=2){
+              if(width - (infos[i].w + 1) >=2){
                 drawArr.push({
                   l: startLeft + infos[i].w + 1,
                   t: startTop,
@@ -230,7 +232,7 @@ reader.on('close', () => {
     out.map((x, i) => (i >= startTop && i < startTop + info.h) ? x.fill(info.c, startLeft, startLeft + info.w) : x)
   }
 
-  search(startLeft, startTop, MapWidth, MapHeight, new Set())
+  search(0, 0, MapWidth, MapHeight, new Set())
 
   while (drawArr.length){
     let pr = drawArr.shift()
