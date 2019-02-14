@@ -82,15 +82,25 @@ function run(la){
   }
   house.sort(function(a,b){return b.size-a.size});
 
+  var doorlist = [];
+
   for(var i=0;i<house.length;i++){
-    var hasin = inserthouse(ta,house,i,0,0,w,h);
+    var hasin = 0;
+    for(var p=0;p<h;p++){
+      for(var q=0;q<w;q++){
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
+        }
+      }
+
+    }
   }
 
 
   print(ta);
 }
 
-function inserthouse(ta,house,k,mleft,mup,mw,mh){
+function inserthouse(ta,house,k,mleft,mup,mw,mh,doorlist){
   var ff = house[k];
   //console.log(ff);
   if(ff==undefined){
@@ -153,11 +163,21 @@ function inserthouse(ta,house,k,mleft,mup,mw,mh){
       toh = h;
     }
   }
+  var backupta = [];
+  var nta = [];
+  for(var i=0;i<ta.length;i++){
+    backupta[i]=[];
+    nta[i]=[]
+    for(var j=0;j<ta[i].length;j++){
+      backupta[i][j]=ta[i][j];
+      nta[i][j]=ta[i][j];
+    }
+  }
 
   var willinsert = true;
   for(var i=fromh+mup;i<toh+mup;i++){
     for(var j=fromw+mleft;j<tow+mleft;j++){
-      if(ta[i][j]!=0){
+      if(nta[i][j]!=0){
         willinsert=false;
       }
     }
@@ -165,13 +185,71 @@ function inserthouse(ta,house,k,mleft,mup,mw,mh){
   if(willinsert){
     for(var i=fromh+mup;i<toh+mup;i++){
       for(var j=fromw+mleft;j<tow+mleft;j++){
-        ta[i][j]=ff.k;
+        nta[i][j]=ff.k;
       }
     }
-    return 1;
+    var door = [fromw+mleft+ff.cd-1,fromh+mup+ff.rd-1];
+    doorlist.push(door);
+    var check = checkdoor(nta,door,doorlist);
+    if(check==0){
+      for(var i=0;i<nta.length;i++){
+        ta[i]=[];
+        for(var j=0;j<nta[i].length;j++){
+          ta[i][j]=nta[i][j];
+        }
+      }
+      return 1;
+    }else{
+      for(var i=0;i<nta.length;i++){
+        ta[i]=[];
+        for(var j=0;j<nta[i].length;j++){
+          ta[i][j]=backupta[i][j];
+        }
+      }
+      return 0;
+    }
   }else{
     return 0;
   }
+}
+
+function checkdoor(ta,door,doorlist){
+  var h = ta.length;
+  var w = ta[0].length;
+  var doormap = {};
+  doorlist.map(function(e){doormap[(e[0]<<10)+e[1]]=1});
+  delete(doormap[(door[0]<<10)+door[1]]);
+  var q=[];
+  q.push(door);
+  var goed = {};
+  while(q.length>0){
+    // console.log("=====\n")
+    // console.log(q);
+    // console.log("=======\n")
+    var point = q.pop();
+
+    var x=point[0];
+    var y=point[1];
+    goed[(x<<10)+y]=1
+    var near=[[x-1,y],[x+1,y],[x,y-1],[x,y+1]];
+    near.map(function(e){
+      var nx = e[0];
+      var ny = e[1];
+      if(nx<0||nx>=w||ny<0||ny>=h||goed[(nx<<10)+ny]==1){
+
+      }else{
+        var pp = ta[ny][nx];
+        if(pp==0){
+          q.push([nx,ny]);
+        }
+        delete(doormap[(nx<<10)+ny])
+      }
+    })
+  }
+  var left = Object.keys(doormap);
+  //console.log("length:"+left.length)
+  return left.length;
+
 }
 
 
