@@ -97,71 +97,185 @@ function run(la){
   }
   house.sort(function(a,b){return b.size-a.size});
 
-  var doorlist = [];
 
+  var best = {r:0,d:ta};
+
+  for(var i=0;i<1;i++){
+    var doorlist = [];
+    var nt = getnhouseAndnta(ta,house);
+    var nta = nt[0];
+    var nhouse = nt[1];
+    var ret=runhouse(nta,nhouse,w,h,doorlist,i);
+    if(ret.r>best.r){
+      best.r = ret.r;
+      best.d = ret.d;
+    }
+  }
+  print(best.d);
+}
+
+function getnhouseAndnta(ta,house){
+  var nta = [];
+  var nhouse = [];
+  for(var i=0;i<ta.length;i++){
+    nta[i]=[];
+    for(var j=0;j<ta[i].length;j++){
+      nta[i][j]=ta[i][j];
+    }
+  }
   for(var i=0;i<house.length;i++){
-    var hasin = 0;
+    var hs = house[i];
+    var nhs = {};
+    for(var p in hs){
+      nhs[p]=hs[p];
+    }
+    nhouse[i]=nhs;
+  }
+  return [nta,nhouse];
+}
+
+function runhouse(ta,house,w,h,doorlist,order){
+  if(order==0){
+    runhs(ta,house,w,h,doorlist,-1)
+    runhs(ta,house,w,h,doorlist,-2)
+    runhs(ta,house,w,h,doorlist,1)
+    runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,4)
+    runhs(ta,house,w,h,doorlist,3)
+  }else if(order==1){
+    runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,1)
+    runhs(ta,house,w,h,doorlist,3)
+  }else if(order==2){
+    runhs(ta,house,w,h,doorlist,1)
+    runhs(ta,house,w,h,doorlist,3)
+    runhs(ta,house,w,h,doorlist,2)
+  }else if(order==3){
+    runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,3)
+    runhs(ta,house,w,h,doorlist,1)
+  }else if(order==4){
+    runhs(ta,house,w,h,doorlist,3)
+    runhs(ta,house,w,h,doorlist,1)
+    runhs(ta,house,w,h,doorlist,2)
+  }else if(order==5){
+    runhs(ta,house,w,h,doorlist,3)
+    runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,1)
+  }
+  var sum=0;
+  for(var y=0;y<ta.length;y++){
+    for(var j=0;j<ta[y].length;j++){
+      if(ta[y][j]>0){
+        sum++;
+      }
+    }
+  }
+  return {r:sum,d:ta};
+
+}
+
+function runhs(ta,house,w,h,doorlist,type){
+  if(type==-1){
     for(var p=0;p<h;p++){
       var q=0;
-      if(hasin==0){
-        hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
-      }
-      if(hasin==0){
-        hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
-      }
-      if(hasin==0){
-        hasin = inserthouse(ta,house,i,q,0,w-q,h-p,doorlist);
-      }
-      if(hasin==0) {
-        hasin = inserthouse(ta, house, i, 0, p, w - q, h - p, doorlist);
-      }
-      if(hasin==1){
-        house[i].used=1;
+      for(var i=0;i<house.length;i++) {
+        var hasin = 0;
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
+        }
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
+        }
+        if(hasin==1){
+          house[i].used=1;
+        }
       }
     }
-  }
-
-  for(var i=0;i<house.length;i++){
-    var hasin = 0;
+  }else if(type==-2){
     for(var q=0;q<w;q++){
       var p=0;
-      if(hasin==0){
-        hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
+      for(var i=0;i<house.length;i++) {
+        var hasin = 0;
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
+        }
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
+        }
+        if(hasin==1){
+          house[i].used=1;
+        }
       }
-      if(hasin==0){
-        hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
+    }
+  }else if(type==1){
+    for(var i=0;i<house.length;i++){
+      var hasin = 0;
+      for(var p=0;p<h;p++){
+        var q=0;
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
+        }
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
+        }
+        if(hasin==1){
+          house[i].used=1;
+        }
       }
-      if(hasin==0){
-        hasin = inserthouse(ta,house,i,q,0,w-q,h-p,doorlist);
+    }
+  }else if(type==2){
+    for(var i=0;i<house.length;i++){
+      var hasin = 0;
+      for(var q=0;q<w;q++){
+        var p=0;
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
+        }
+        if(hasin==1){
+          house[i].used=1;
+        }
       }
-      if(hasin==0){
-        hasin = inserthouse(ta,house,i,0,p,w-q,h-p,doorlist);
+    }
+  }else if(type==3){
+    for(var i=0;i<house.length;i++){
+      var hasin = 0;
+      for(var p=0;p<h;p++){
+        for(var q=0;q<w;q++) {
+          if (hasin == 0) {
+            hasin = inserthouse(ta, house, i, q, p, w - q, h - p, doorlist);
+          }
+          if (hasin == 0) {
+            hasin = inserthouse(ta, house, i, 0, 0, w - q, h - p, doorlist);
+          }
+          if (hasin == 1) {
+            house[i].used = 1;
+          }
+        }
       }
-      if(hasin==1){
-        house[i].used=1;
+    }
+  }else if(type==4){
+    for(var i=0;i<house.length;i++){
+      var hasin = 0;
+      for(var x=0;x<h+w-1;x++){
+        for(var q=0;q<=x;q++) {
+          var p = x-q;
+          if (hasin == 0) {
+            hasin = inserthouse(ta, house, i, q, p, w - q, h - p, doorlist);
+          }
+          if (hasin == 0) {
+            hasin = inserthouse(ta, house, i, 0, 0, w - q, h - p, doorlist);
+          }
+          if (hasin == 1) {
+            house[i].used = 1;
+          }
+        }
       }
     }
   }
 
-  for(var i=0;i<house.length;i++){
-    var hasin = 0;
-    for(var p=0;p<=h;p++){
-      for(var q=0;q<w;q++) {
-        if (hasin == 0) {
-          hasin = inserthouse(ta, house, i, q, p, w - q, h - p, doorlist);
-        }
-        if (hasin == 0) {
-          hasin = inserthouse(ta, house, i, 0, 0, w - q, h - p, doorlist);
-        }
-        if (hasin == 1) {
-          house[i].used = 1;
-        }
-      }
-    }
-  }
-
-  print(ta);
 }
+
 
 function inserthouse(ta,house,k,mleft,mup,mw,mh,doorlist){
   var ff = house[k];
@@ -170,7 +284,7 @@ function inserthouse(ta,house,k,mleft,mup,mw,mh,doorlist){
   }
   //console.log(ff);
   if(ff==undefined){
-    return;
+    return 0;
   }
   var fromh;
   var toh;
@@ -179,14 +293,8 @@ function inserthouse(ta,house,k,mleft,mup,mw,mh,doorlist){
   var h = mh;
   var w = mw;
   if(ff.hd>h||ff.wd>w){
-    return;
+    return 0;
   }
-  if(ff.hd==h&&ff.wd==w){
-    //TODO
-  }
-
-
-
 
   if(ff.u){
     fromh = h-ff.hd;
@@ -229,48 +337,43 @@ function inserthouse(ta,house,k,mleft,mup,mw,mh,doorlist){
       toh = h;
     }
   }
-  var backupta = [];
-  var nta = [];
-  for(var i=0;i<ta.length;i++){
-    backupta[i]=[];
-    nta[i]=[]
-    for(var j=0;j<ta[i].length;j++){
-      backupta[i][j]=ta[i][j];
-      nta[i][j]=ta[i][j];
-    }
-  }
+  // var backupta = [];
+  // for(var i=0;i<ta.length;i++){
+  //   backupta[i]=[];
+  //   for(var j=0;j<ta[i].length;j++){
+  //     backupta[i][j]=ta[i][j];
+  //   }
+  // }
 
   var willinsert = true;
   for(var i=fromh+mup;i<toh+mup;i++){
-    for(var j=fromw+mleft;j<tow+mleft;j++){
-      if(nta[i][j]!=0){
-        willinsert=false;
+    if(willinsert){
+      for(var j=fromw+mleft;j<tow+mleft;j++){
+        if(ta[i][j]!=0){
+          willinsert=false;
+          break;
+        }
       }
+    }else{
+      break;
     }
   }
   if(willinsert){
     for(var i=fromh+mup;i<toh+mup;i++){
       for(var j=fromw+mleft;j<tow+mleft;j++){
-        nta[i][j]=ff.k;
+        ta[i][j]=ff.k;
       }
     }
     var door = [fromw+mleft+ff.cd-1,fromh+mup+ff.rd-1];
 
-    var check = checkdoor(nta,door,doorlist);
+    var check = checkdoor(ta,door,doorlist);
     if(check==0){
-      for(var i=0;i<nta.length;i++){
-        ta[i]=[];
-        for(var j=0;j<nta[i].length;j++){
-          ta[i][j]=nta[i][j];
-        }
-      }
       doorlist.push(door);
       return 1;
     }else{
-      for(var i=0;i<nta.length;i++){
-        ta[i]=[];
-        for(var j=0;j<nta[i].length;j++){
-          ta[i][j]=backupta[i][j];
+      for(var i=fromh+mup;i<toh+mup;i++){
+        for(var j=fromw+mleft;j<tow+mleft;j++){
+          ta[i][j]=0;
         }
       }
       return 0;
@@ -290,9 +393,6 @@ function checkdoor(ta,door,doorlist){
   q.push(door);
   var goed = {};
   while(q.length>0){
-    // console.log("=====\n")
-    // console.log(q);
-    // console.log("=======\n")
     var point = q.pop();
 
     var x=point[0];
