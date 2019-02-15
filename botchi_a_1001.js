@@ -160,25 +160,6 @@ function run(la){
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   print(ta);
 }
 
