@@ -29,25 +29,24 @@ reader.on('close', () => {
 
   let renderCount = 0
 
-  let tmpArr = [], flag = true
-
-  while (infos.length){
-    if(flag){
-      tmpArr.unshift(infos.shift())
-    } else {
-      tmpArr.unshift(infos.pop())
-    }
-    flag = !flag
-  }
-  infos = [].concat(tmpArr)
+  // let tmpArr = [], flag = true
+  //
+  // while (infos.length){
+  //   if(flag){
+  //     tmpArr.unshift(infos.shift())
+  //   } else {
+  //     tmpArr.unshift(infos.pop())
+  //   }
+  //   flag = !flag
+  // }
+  // infos = [].concat(tmpArr)
 
   let drawArr = []
 
-  const isRow = (w, h) => true
+  const isRow = (w, h) => h >= w
 
   const search = (startLeft, startTop, width, height, dw) => {
     for(let i = 0; i < infos.length; i ++){
-      // console.log(infos[i])
       if(dw.has(infos[i].d)){
         /* 门口在的方向刚好有路 */
         var width = width, height = height
