@@ -106,6 +106,15 @@ function run(la){
       if(hasin==0){
         hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
       }
+      if(hasin==0){
+        hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
+      }
+      if(hasin==0){
+        hasin = inserthouse(ta,house,i,q,0,w-q,h-p,doorlist);
+      }
+      if(hasin==0) {
+        hasin = inserthouse(ta, house, i, 0, p, w - q, h - p, doorlist);
+      }
       if(hasin==1){
         house[i].used=1;
       }
@@ -119,6 +128,15 @@ function run(la){
       if(hasin==0){
         hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
       }
+      if(hasin==0){
+        hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
+      }
+      if(hasin==0){
+        hasin = inserthouse(ta,house,i,q,0,w-q,h-p,doorlist);
+      }
+      if(hasin==0){
+        hasin = inserthouse(ta,house,i,0,p,w-q,h-p,doorlist);
+      }
       if(hasin==1){
         house[i].used=1;
       }
@@ -127,13 +145,16 @@ function run(la){
 
   for(var i=0;i<house.length;i++){
     var hasin = 0;
-    for(var p=0;p<h;p++){
-      for(var q=0;q<w;q++){
-        if(hasin==0){
-          hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
+    for(var p=0;p<=h;p++){
+      for(var q=0;q<w;q++) {
+        if (hasin == 0) {
+          hasin = inserthouse(ta, house, i, q, p, w - q, h - p, doorlist);
         }
-        if(hasin==1){
-          house[i].used=1;
+        if (hasin == 0) {
+          hasin = inserthouse(ta, house, i, 0, 0, w - q, h - p, doorlist);
+        }
+        if (hasin == 1) {
+          house[i].used = 1;
         }
       }
     }
