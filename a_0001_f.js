@@ -47,6 +47,7 @@ reader.on('close', () => {
 
   const search = (startLeft, startTop, width, height, dw) => {
     for(let i = 0; i < infos.length; i ++){
+      // console.log(infos[i])
       if(dw.has(infos[i].d)){
         /* 门口在的方向刚好有路 */
         var width = width, height = height
