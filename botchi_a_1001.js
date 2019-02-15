@@ -100,7 +100,7 @@ function run(la){
 
   var best = {r:0,d:ta};
 
-  for(var i=0;i<1;i++){
+  for(var i=0;i<6;i++){
     var doorlist = [];
     var nt = getnhouseAndnta(ta,house);
     var nta = nt[0];
@@ -143,24 +143,39 @@ function runhouse(ta,house,w,h,doorlist,order){
     runhs(ta,house,w,h,doorlist,4)
     runhs(ta,house,w,h,doorlist,3)
   }else if(order==1){
+    runhs(ta,house,w,h,doorlist,-2)
+    runhs(ta,house,w,h,doorlist,-1)
     runhs(ta,house,w,h,doorlist,2)
     runhs(ta,house,w,h,doorlist,1)
     runhs(ta,house,w,h,doorlist,3)
+    runhs(ta,house,w,h,doorlist,4)
   }else if(order==2){
+    runhs(ta,house,w,h,doorlist,-2)
+    runhs(ta,house,w,h,doorlist,-1)
     runhs(ta,house,w,h,doorlist,1)
-    runhs(ta,house,w,h,doorlist,3)
     runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,3)
+    runhs(ta,house,w,h,doorlist,4)
   }else if(order==3){
+    runhs(ta,house,w,h,doorlist,-1)
+    runhs(ta,house,w,h,doorlist,-2)
     runhs(ta,house,w,h,doorlist,2)
-    runhs(ta,house,w,h,doorlist,3)
     runhs(ta,house,w,h,doorlist,1)
+    runhs(ta,house,w,h,doorlist,4)
+    runhs(ta,house,w,h,doorlist,3)
   }else if(order==4){
+    runhs(ta,house,w,h,doorlist,-1)
+    runhs(ta,house,w,h,doorlist,-2)
     runhs(ta,house,w,h,doorlist,3)
     runhs(ta,house,w,h,doorlist,1)
     runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,4)
   }else if(order==5){
-    runhs(ta,house,w,h,doorlist,3)
+    runhs(ta,house,w,h,doorlist,-2)
+    runhs(ta,house,w,h,doorlist,-1)
+    runhs(ta,house,w,h,doorlist,4)
     runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,3)
     runhs(ta,house,w,h,doorlist,1)
   }
   var sum=0;
