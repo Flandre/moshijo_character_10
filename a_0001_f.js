@@ -469,7 +469,7 @@ reader.on('close', () => {
     let pr = drawArr.shift()
     search(pr.l, pr.t, pr.w, pr.h, pr.d)
   }
-
+  /* 低保 */
   if(renderCount == 0){
     out = new Array(MapHeight).fill(0).map(() => new Array(MapWidth).fill(0))
     render(0, 0, saveInfos[0])
