@@ -113,7 +113,7 @@ function run(la){
     }
     var now = new Date().getTime();
     var sub = now-starttime;
-    if(i>10){
+    if(i>5){
       if(now-starttime>16000-sub*2){
         break;
       }
@@ -276,6 +276,12 @@ function runhs(ta,house,w,h,doorlist,type){
         if(hasin==0){
           hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
         }
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,q,0,w-q,h-p,doorlist);
+        }
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,0,p,w-q,h-p,doorlist);
+        }
         if(hasin==1){
           house[i].used=1;
         }
@@ -292,6 +298,12 @@ function runhs(ta,house,w,h,doorlist,type){
         if(hasin==0){
           hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
         }
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,q,0,w-q,h-p,doorlist);
+        }
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,0,p,w-q,h-p,doorlist);
+        }
         if(hasin==1){
           house[i].used=1;
         }
@@ -302,14 +314,20 @@ function runhs(ta,house,w,h,doorlist,type){
       for(var q=0;q<w;q++) {
         for(var i=0;i<house.length;i++){
           var hasin = 0;
-          if (hasin == 0) {
-            hasin = inserthouse(ta, house, i, q, p, w - q, h - p, doorlist);
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
           }
-          if (hasin == 0) {
-            hasin = inserthouse(ta, house, i, 0, 0, w - q, h - p, doorlist);
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
           }
-          if (hasin == 1) {
-            house[i].used = 1;
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,q,0,w-q,h-p,doorlist);
+          }
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,0,p,w-q,h-p,doorlist);
+          }
+          if(hasin==1){
+            house[i].used=1;
           }
         }
       }
@@ -320,14 +338,20 @@ function runhs(ta,house,w,h,doorlist,type){
         var p = x-q;
         for(var i=0;i<house.length;i++){
           var hasin = 0;
-          if (hasin == 0) {
-            hasin = inserthouse(ta, house, i, q, p, w - q, h - p, doorlist);
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
           }
-          if (hasin == 0) {
-            hasin = inserthouse(ta, house, i, 0, 0, w - q, h - p, doorlist);
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
           }
-          if (hasin == 1) {
-            house[i].used = 1;
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,q,0,w-q,h-p,doorlist);
+          }
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,0,p,w-q,h-p,doorlist);
+          }
+          if(hasin==1){
+            house[i].used=1;
           }
         }
       }
@@ -337,14 +361,20 @@ function runhs(ta,house,w,h,doorlist,type){
       for(var p=0;p<h;p++){
         for(var i=0;i<house.length;i++){
           var hasin = 0;
-          if (hasin == 0) {
-            hasin = inserthouse(ta, house, i, q, p, w - q, h - p, doorlist);
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
           }
-          if (hasin == 0) {
-            hasin = inserthouse(ta, house, i, 0, 0, w - q, h - p, doorlist);
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
           }
-          if (hasin == 1) {
-            house[i].used = 1;
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,q,0,w-q,h-p,doorlist);
+          }
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,0,p,w-q,h-p,doorlist);
+          }
+          if(hasin==1){
+            house[i].used=1;
           }
         }
       }
@@ -360,6 +390,12 @@ function runhs(ta,house,w,h,doorlist,type){
         if(hasin==0){
           hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
         }
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,q,0,w-q,h-p,doorlist);
+        }
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,0,p,w-q,h-p,doorlist);
+        }
         if(hasin==1){
           house[i].used=1;
         }
@@ -373,6 +409,15 @@ function runhs(ta,house,w,h,doorlist,type){
         if(hasin==0){
           hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
         }
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
+        }
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,q,0,w-q,h-p,doorlist);
+        }
+        if(hasin==0){
+          hasin = inserthouse(ta,house,i,0,p,w-q,h-p,doorlist);
+        }
         if(hasin==1){
           house[i].used=1;
         }
@@ -383,14 +428,20 @@ function runhs(ta,house,w,h,doorlist,type){
       var hasin = 0;
       for(var p=0;p<h;p++){
         for(var q=0;q<w;q++) {
-          if (hasin == 0) {
-            hasin = inserthouse(ta, house, i, q, p, w - q, h - p, doorlist);
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
           }
-          if (hasin == 0) {
-            hasin = inserthouse(ta, house, i, 0, 0, w - q, h - p, doorlist);
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
           }
-          if (hasin == 1) {
-            house[i].used = 1;
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,q,0,w-q,h-p,doorlist);
+          }
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,0,p,w-q,h-p,doorlist);
+          }
+          if(hasin==1){
+            house[i].used=1;
           }
         }
       }
@@ -401,14 +452,20 @@ function runhs(ta,house,w,h,doorlist,type){
       for(var x=0;x<h+w-1;x++){
         for(var q=0;q<=x;q++) {
           var p = x-q;
-          if (hasin == 0) {
-            hasin = inserthouse(ta, house, i, q, p, w - q, h - p, doorlist);
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
           }
-          if (hasin == 0) {
-            hasin = inserthouse(ta, house, i, 0, 0, w - q, h - p, doorlist);
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
           }
-          if (hasin == 1) {
-            house[i].used = 1;
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,q,0,w-q,h-p,doorlist);
+          }
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,0,p,w-q,h-p,doorlist);
+          }
+          if(hasin==1){
+            house[i].used=1;
           }
         }
       }
@@ -418,14 +475,20 @@ function runhs(ta,house,w,h,doorlist,type){
       var hasin = 0;
       for(var q=0;q<w;q++) {
         for(var p=0;p<h;p++){
-          if (hasin == 0) {
-            hasin = inserthouse(ta, house, i, q, p, w - q, h - p, doorlist);
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,q,p,w-q,h-p,doorlist);
           }
-          if (hasin == 0) {
-            hasin = inserthouse(ta, house, i, 0, 0, w - q, h - p, doorlist);
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,0,0,w-q,h-p,doorlist);
           }
-          if (hasin == 1) {
-            house[i].used = 1;
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,q,0,w-q,h-p,doorlist);
+          }
+          if(hasin==0){
+            hasin = inserthouse(ta,house,i,0,p,w-q,h-p,doorlist);
+          }
+          if(hasin==1){
+            house[i].used=1;
           }
         }
       }
