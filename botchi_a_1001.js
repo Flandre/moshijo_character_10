@@ -100,7 +100,6 @@ function run(la){
 
   var best = {r:0,d:ta};
   var starttime = new Date().getTime();
-  var sub = 0;
   for(var i=0;i<30000;i++){
     var doorlist = [];
     var nt = getnhouseAndnta(ta,house);
@@ -114,7 +113,7 @@ function run(la){
     var now = new Date().getTime();
     var sub = now-starttime;
     if(i>5){
-      if(now-starttime>16000-sub*2){
+      if(now-starttime>16000-sub*1.2){
         break;
       }
     }
