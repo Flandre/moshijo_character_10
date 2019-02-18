@@ -99,8 +99,9 @@ function run(la){
 
 
   var best = {r:0,d:ta};
-
-  for(var i=0;i<6;i++){
+  var starttime = new Date().getTime();
+  var sub = 0;
+  for(var i=0;i<30000;i++){
     var doorlist = [];
     var nt = getnhouseAndnta(ta,house);
     var nta = nt[0];
@@ -109,6 +110,13 @@ function run(la){
     if(ret.r>best.r){
       best.r = ret.r;
       best.d = ret.d;
+    }
+    var now = new Date().getTime();
+    var sub = now-starttime;
+    if(i>10){
+      if(now-starttime>16000-sub*2){
+        break;
+      }
     }
   }
   print(best.d);
@@ -189,6 +197,60 @@ function runhouse(ta,house,w,h,doorlist,order){
     runhs(ta,house,w,h,doorlist,3)
     runhs(ta,house,w,h,doorlist,-4)
     runhs(ta,house,w,h,doorlist,1)
+  }else if(order==6){
+    runhs(ta,house,w,h,doorlist,-2)
+    runhs(ta,house,w,h,doorlist,-1)
+    runhs(ta,house,w,h,doorlist,-4)
+    runhs(ta,house,w,h,doorlist,-3)
+    runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,1)
+    runhs(ta,house,w,h,doorlist,4)
+    runhs(ta,house,w,h,doorlist,3)
+  }else if(order==7){
+    runhs(ta,house,w,h,doorlist,-1)
+    runhs(ta,house,w,h,doorlist,-2)
+    runhs(ta,house,w,h,doorlist,-4)
+    runhs(ta,house,w,h,doorlist,-3)
+    runhs(ta,house,w,h,doorlist,-5)
+    runhs(ta,house,w,h,doorlist,4)
+    runhs(ta,house,w,h,doorlist,5)
+    runhs(ta,house,w,h,doorlist,1)
+    runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,3)
+  }else if(order==8){
+    runhs(ta,house,w,h,doorlist,1)
+    runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,4)
+    runhs(ta,house,w,h,doorlist,3)
+    runhs(ta,house,w,h,doorlist,5)
+    runhs(ta,house,w,h,doorlist,-4)
+    runhs(ta,house,w,h,doorlist,-1)
+    runhs(ta,house,w,h,doorlist,-2)
+    runhs(ta,house,w,h,doorlist,-5)
+    runhs(ta,house,w,h,doorlist,-3)
+  }else if(order==9){
+    runhs(ta,house,w,h,doorlist,1)
+    runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,4)
+    runhs(ta,house,w,h,doorlist,3)
+    runhs(ta,house,w,h,doorlist,5)
+    runhs(ta,house,w,h,doorlist,-4)
+    runhs(ta,house,w,h,doorlist,-1)
+    runhs(ta,house,w,h,doorlist,-2)
+    runhs(ta,house,w,h,doorlist,-5)
+    runhs(ta,house,w,h,doorlist,-3)
+  }else if(order>=10){
+    house.sort(function(){return Math.random()-0.6-0.4/(order/10)});
+    if(order%12>=10){
+      var arr = [-1,-2,-3,-4,-5,1,2,3,4,5];
+      arr.sort(function(){return Math.random()-0.5});
+      for(var i=0;i<arr.length;i++){
+        runhs(ta,house,w,h,doorlist,arr[i]);
+      }
+    }else{
+      runhouse(ta,house,w,h,doorlist,order%12);
+    }
+
   }
   var sum=0;
   for(var y=0;y<ta.length;y++){
@@ -270,6 +332,23 @@ function runhs(ta,house,w,h,doorlist,type){
         }
       }
     }
+  }else if(type==-5){
+    for(var q=0;q<w;q++) {
+      for(var p=0;p<h;p++){
+        for(var i=0;i<house.length;i++){
+          var hasin = 0;
+          if (hasin == 0) {
+            hasin = inserthouse(ta, house, i, q, p, w - q, h - p, doorlist);
+          }
+          if (hasin == 0) {
+            hasin = inserthouse(ta, house, i, 0, 0, w - q, h - p, doorlist);
+          }
+          if (hasin == 1) {
+            house[i].used = 1;
+          }
+        }
+      }
+    }
   }else if(type==1){
     for(var i=0;i<house.length;i++){
       var hasin = 0;
@@ -322,6 +401,23 @@ function runhs(ta,house,w,h,doorlist,type){
       for(var x=0;x<h+w-1;x++){
         for(var q=0;q<=x;q++) {
           var p = x-q;
+          if (hasin == 0) {
+            hasin = inserthouse(ta, house, i, q, p, w - q, h - p, doorlist);
+          }
+          if (hasin == 0) {
+            hasin = inserthouse(ta, house, i, 0, 0, w - q, h - p, doorlist);
+          }
+          if (hasin == 1) {
+            house[i].used = 1;
+          }
+        }
+      }
+    }
+  }else if(type==5){
+    for(var i=0;i<house.length;i++){
+      var hasin = 0;
+      for(var q=0;q<w;q++) {
+        for(var p=0;p<h;p++){
           if (hasin == 0) {
             hasin = inserthouse(ta, house, i, q, p, w - q, h - p, doorlist);
           }
