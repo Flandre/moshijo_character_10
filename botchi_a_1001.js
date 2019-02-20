@@ -93,7 +93,83 @@ function run(la){
         hs.nn=1;
       }
     }
-    house.push(hs);
+
+    var ff=hs;
+    var fromh;
+    var toh;
+    var fromw;
+    var tow;
+    if(ff.u){
+      fromh = 0-ff.hd;
+      toh = 0;
+      if(ff.nn==0){
+        fromw = 0;
+        tow = ff.wd;
+      }else{
+        fromw = 0-ff.wd;
+        tow = 0;
+      }
+    }else if(ff.d){
+      fromh = 0;
+      toh = ff.hd;
+      if(ff.nn==0){
+        fromw = 0;
+        tow = ff.wd;
+      }else{
+        fromw = 0-ff.wd;
+        tow = 0;
+      }
+    }else if(ff.l){
+      fromw = 0-ff.wd;
+      tow = 0;
+      if(ff.nn==0){
+        fromh = 0;
+        toh = ff.hd;
+      }else{
+        fromh = 0-ff.hd;
+        toh = 0;
+      }
+    }else if(ff.r){
+      fromw = 0;
+      tow = ff.wd;
+      if(ff.nn==0){
+        fromh = 0;
+        toh = ff.hd;
+      }else{
+        fromh = 0-ff.hd;
+        toh = 0;
+      }
+    }
+    ff.fromw=fromw;
+    ff.fromh=fromh;
+    ff.tow=tow;
+    ff.toh=toh;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    house.push(ff);
   }
   house.sort(function(a,b){return b.size-a.size});
 
@@ -112,7 +188,7 @@ function run(la){
     }
     var now = new Date().getTime();
     var sub = now-starttime;
-    if(i>5){
+    if(i>8){
       if(now-starttime>16000-sub*1.2){
         break;
       }
@@ -148,6 +224,8 @@ function runhouse(ta,house,w,h,doorlist,order){
     runhs(ta,house,w,h,doorlist,1)
     runhs(ta,house,w,h,doorlist,2)
     runhs(ta,house,w,h,doorlist,4)
+    runhs(ta,house,w,h,doorlist,-5)
+    runhs(ta,house,w,h,doorlist,5)
     runhs(ta,house,w,h,doorlist,3)
     runhs(ta,house,w,h,doorlist,-3)
     runhs(ta,house,w,h,doorlist,-4)
@@ -160,6 +238,8 @@ function runhouse(ta,house,w,h,doorlist,order){
     runhs(ta,house,w,h,doorlist,-4)
     runhs(ta,house,w,h,doorlist,3)
     runhs(ta,house,w,h,doorlist,4)
+    runhs(ta,house,w,h,doorlist,-5)
+    runhs(ta,house,w,h,doorlist,5)
   }else if(order==2){
     runhs(ta,house,w,h,doorlist,-2)
     runhs(ta,house,w,h,doorlist,-1)
@@ -169,6 +249,8 @@ function runhouse(ta,house,w,h,doorlist,order){
     runhs(ta,house,w,h,doorlist,-3)
     runhs(ta,house,w,h,doorlist,-4)
     runhs(ta,house,w,h,doorlist,4)
+    runhs(ta,house,w,h,doorlist,5)
+    runhs(ta,house,w,h,doorlist,-5)
   }else if(order==3){
     runhs(ta,house,w,h,doorlist,-1)
     runhs(ta,house,w,h,doorlist,-2)
@@ -179,65 +261,65 @@ function runhouse(ta,house,w,h,doorlist,order){
     runhs(ta,house,w,h,doorlist,-4)
     runhs(ta,house,w,h,doorlist,3)
   }else if(order==4){
-    runhs(ta,house,w,h,doorlist,-1)
-    runhs(ta,house,w,h,doorlist,-2)
-    runhs(ta,house,w,h,doorlist,3)
     runhs(ta,house,w,h,doorlist,1)
-    runhs(ta,house,w,h,doorlist,-3)
-    runhs(ta,house,w,h,doorlist,-4)
     runhs(ta,house,w,h,doorlist,2)
     runhs(ta,house,w,h,doorlist,4)
+    runhs(ta,house,w,h,doorlist,3)
+    runhs(ta,house,w,h,doorlist,5)
+    runhs(ta,house,w,h,doorlist,-4)
+    runhs(ta,house,w,h,doorlist,-1)
+    runhs(ta,house,w,h,doorlist,-2)
+    runhs(ta,house,w,h,doorlist,-5)
+    runhs(ta,house,w,h,doorlist,-3)
   }else if(order==5){
-    runhs(ta,house,w,h,doorlist,-2)
-    runhs(ta,house,w,h,doorlist,-1)
-    runhs(ta,house,w,h,doorlist,4)
-    runhs(ta,house,w,h,doorlist,2)
-    runhs(ta,house,w,h,doorlist,-3)
-    runhs(ta,house,w,h,doorlist,3)
-    runhs(ta,house,w,h,doorlist,-4)
     runhs(ta,house,w,h,doorlist,1)
+    runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,4)
+    runhs(ta,house,w,h,doorlist,3)
+    runhs(ta,house,w,h,doorlist,5)
+    runhs(ta,house,w,h,doorlist,-4)
+    runhs(ta,house,w,h,doorlist,-1)
+    runhs(ta,house,w,h,doorlist,-2)
+    runhs(ta,house,w,h,doorlist,-5)
+    runhs(ta,house,w,h,doorlist,-3)
   }else if(order==6){
-    runhs(ta,house,w,h,doorlist,-2)
     runhs(ta,house,w,h,doorlist,-1)
-    runhs(ta,house,w,h,doorlist,-4)
-    runhs(ta,house,w,h,doorlist,-3)
-    runhs(ta,house,w,h,doorlist,2)
-    runhs(ta,house,w,h,doorlist,1)
-    runhs(ta,house,w,h,doorlist,4)
+    runhs(ta,house,w,h,doorlist,-2)
     runhs(ta,house,w,h,doorlist,3)
+    runhs(ta,house,w,h,doorlist,1)
+    runhs(ta,house,w,h,doorlist,-3)
+    runhs(ta,house,w,h,doorlist,-4)
+    runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,4)
   }else if(order==7){
-    runhs(ta,house,w,h,doorlist,-1)
     runhs(ta,house,w,h,doorlist,-2)
-    runhs(ta,house,w,h,doorlist,-4)
-    runhs(ta,house,w,h,doorlist,-3)
-    runhs(ta,house,w,h,doorlist,-5)
+    runhs(ta,house,w,h,doorlist,-1)
     runhs(ta,house,w,h,doorlist,4)
-    runhs(ta,house,w,h,doorlist,5)
-    runhs(ta,house,w,h,doorlist,1)
     runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,-3)
     runhs(ta,house,w,h,doorlist,3)
+    runhs(ta,house,w,h,doorlist,-4)
+    runhs(ta,house,w,h,doorlist,1)
   }else if(order==8){
-    runhs(ta,house,w,h,doorlist,1)
+    runhs(ta,house,w,h,doorlist,-2)
+    runhs(ta,house,w,h,doorlist,-1)
+    runhs(ta,house,w,h,doorlist,-4)
+    runhs(ta,house,w,h,doorlist,-3)
     runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,1)
     runhs(ta,house,w,h,doorlist,4)
     runhs(ta,house,w,h,doorlist,3)
-    runhs(ta,house,w,h,doorlist,5)
-    runhs(ta,house,w,h,doorlist,-4)
-    runhs(ta,house,w,h,doorlist,-1)
-    runhs(ta,house,w,h,doorlist,-2)
-    runhs(ta,house,w,h,doorlist,-5)
-    runhs(ta,house,w,h,doorlist,-3)
   }else if(order==9){
-    runhs(ta,house,w,h,doorlist,1)
-    runhs(ta,house,w,h,doorlist,2)
-    runhs(ta,house,w,h,doorlist,4)
-    runhs(ta,house,w,h,doorlist,3)
-    runhs(ta,house,w,h,doorlist,5)
-    runhs(ta,house,w,h,doorlist,-4)
     runhs(ta,house,w,h,doorlist,-1)
     runhs(ta,house,w,h,doorlist,-2)
-    runhs(ta,house,w,h,doorlist,-5)
+    runhs(ta,house,w,h,doorlist,-4)
     runhs(ta,house,w,h,doorlist,-3)
+    runhs(ta,house,w,h,doorlist,-5)
+    runhs(ta,house,w,h,doorlist,4)
+    runhs(ta,house,w,h,doorlist,5)
+    runhs(ta,house,w,h,doorlist,1)
+    runhs(ta,house,w,h,doorlist,2)
+    runhs(ta,house,w,h,doorlist,3)
   }else if(order>=10){
     house.sort(function(){return Math.random()-0.6-0.4/(order/10)});
     if(order%12>=10){
@@ -506,64 +588,27 @@ function inserthouse(ta,house,k,mleft,mup,mw,mh,doorlist){
   if(ff==undefined){
     return 0;
   }
-  var fromh;
-  var toh;
-  var fromw;
-  var tow;
+
   var h = mh;
   var w = mw;
   if(ff.hd>h||ff.wd>w){
     return 0;
   }
 
-  if(ff.u){
-    fromh = h-ff.hd;
-    toh = h;
-    if(ff.nn==0){
-      fromw = 0;
-      tow = ff.wd;
-    }else{
-      fromw = w-ff.wd;
-      tow = w;
-    }
-  }else if(ff.d){
-    fromh = 0;
-    toh = ff.hd;
-    if(ff.nn==0){
-      fromw = 0;
-      tow = ff.wd;
-    }else{
-      fromw = w-ff.wd;
-      tow = w;
-    }
-  }else if(ff.l){
-    fromw = w-ff.wd;
-    tow = w;
-    if(ff.nn==0){
-      fromh = 0;
-      toh = ff.hd;
-    }else{
-      fromh = h-ff.hd;
-      toh = h;
-    }
-  }else if(ff.r){
-    fromw = 0;
-    tow = ff.wd;
-    if(ff.nn==0){
-      fromh = 0;
-      toh = ff.hd;
-    }else{
-      fromh = h-ff.hd;
-      toh = h;
-    }
+  var fromw=ff.fromw;
+  var tow=ff.tow;
+  var fromh=ff.fromh;
+  var toh = ff.toh;
+  if(fromw<0){
+    fromw=fromw+w;
+    tow = tow+w;
   }
-  // var backupta = [];
-  // for(var i=0;i<ta.length;i++){
-  //   backupta[i]=[];
-  //   for(var j=0;j<ta[i].length;j++){
-  //     backupta[i][j]=ta[i][j];
-  //   }
-  // }
+  if(fromh<0){
+    fromh=fromh+h;
+    toh=toh+h;
+  }
+
+
 
   var willinsert = true;
   for(var i=fromh+mup;i<toh+mup;i++){
@@ -625,8 +670,7 @@ function checkdoor(ta,door,doorlist){
       if(nx<0||nx>=w||ny<0||ny>=h||goed[(nx<<10)+ny]==1){
 
       }else{
-        var pp = ta[ny][nx];
-        if(pp==0){
+        if(ta[ny][nx]==0){
           q.push([nx,ny]);
         }
         delete(doormap[(nx<<10)+ny])
@@ -634,12 +678,8 @@ function checkdoor(ta,door,doorlist){
     })
   }
   var left = Object.keys(doormap);
-  //console.log("length:"+left.length)
   return left.length;
-
 }
-
-
 
 
 function print(ta){
