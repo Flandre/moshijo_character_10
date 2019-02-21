@@ -147,7 +147,7 @@ function run(la){
 
   var best = {r:0,d:ta};
   var starttime = new Date().getTime();
-  for(var i=0;i<30000;i++){
+  for(var i=0;i<10000;i++){
     var doorlist = [];
     var nt = getnhouseAndnta(ta,house);
     var nta = nt[0];
@@ -156,6 +156,15 @@ function run(la){
     if(ret.r>best.r){
       best.r = ret.r;
       best.d = ret.d;
+      var test=true;
+      if(test){
+        for(var i=0;i<doorlist.length;i++){
+          var door = doorlist[i];
+          var ex = door[0];
+          var ey = door[1];
+          best.d[ey][ex]="d";
+        }
+      }
     }
     var now = new Date().getTime();
     var sub = now-starttime;
@@ -164,6 +173,8 @@ function run(la){
         break;
       }
     }
+
+
   }
   print(best.d);
 }
