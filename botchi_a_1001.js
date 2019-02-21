@@ -147,7 +147,7 @@ function run(la){
 
   var best = {r:0,d:ta};
   var starttime = new Date().getTime();
-  for(var i=0;i<1;i++){
+  for(var i=0;i<30000;i++){
     var doorlist = [];
     var nt = getnhouseAndnta(ta,house);
     var nta = nt[0];
