@@ -156,7 +156,7 @@ function run(la){
     if(ret.r>best.r){
       best.r = ret.r;
       best.d = ret.d;
-      var test=false;
+      var test=true;
       if(test){
         for(var i=0;i<doorlist.length;i++){
           var door = doorlist[i];
