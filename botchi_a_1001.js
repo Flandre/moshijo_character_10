@@ -156,7 +156,7 @@ function run(la){
     if(ret.r>best.r){
       best.r = ret.r;
       best.d = ret.d;
-      var test=true;
+      var test=false;
       if(test){
         for(var i=0;i<doorlist.length;i++){
           var door = doorlist[i];
@@ -168,7 +168,7 @@ function run(la){
     }
     var now = new Date().getTime();
     var sub = now-starttime;
-    if(i>7){
+    if(i>6){
       if(now-starttime>16000-sub*1.2){
         break;
       }
@@ -303,15 +303,15 @@ function runhouse(ta,house,w,h,doorlist,order){
     runhs(order,ta,house,w,h,doorlist,2)
     runhs(order,ta,house,w,h,doorlist,3)
   }else if(order>=10){
-    house.sort(function(){return Math.random()-0.6-0.4/(order/10)});
-    if(order%12>=10){
+    house.sort(function(){return Math.random()-0.5-0.5/(order/10)});
+    if(order%12>=2){
       var arr = [-1,-2,-3,-4,-5,1,2,3,4,5];
       arr.sort(function(){return Math.random()-0.5});
       for(var i=0;i<arr.length;i++){
         runhs(order,ta,house,w,h,doorlist,arr[i]);
       }
     }else{
-      runhouse(ta,house,w,h,doorlist,order%12);
+      runhouse(ta,house,w,h,doorlist,Math.floor((order%12+1)*Math.random()*6));
     }
 
   }
