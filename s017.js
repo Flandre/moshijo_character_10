@@ -1,0 +1,110 @@
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+// 自分の得意な言語で
+// Let's チャレンジ！！
+
+var lines = [];
+var reader = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+reader.on('line', (line) => {
+  lines.push(line);
+});
+reader.on('close', () => {
+  var param = lines[0].split(' ').map(d => parseInt(d)), floorArr = [], itemInfos = new Array(param[2] + 1).fill({}).map((a, i) => {
+    return {
+      item: i,
+      count: 0,
+      xpos: 0,
+      ypos: 0,
+      upArr: [],
+      upOpt: {}
+    }
+  })
+  for(let i = 1; i <= param[0]; i ++){
+    let line = lines[i].split('')
+    floorArr.push(line)
+    line.forEach(l => {
+      if(l != '.') {
+        itemInfos[l].count ++
+      }
+    })
+  }
+  for(let i = 1; i <= param[2]; i++){
+    // console.log('=========')
+    // console.log(i)
+    // console.log(checkItem(floorArr, param[0], param[1], i, itemInfos))
+    // console.log(itemInfos[i])
+    let tmp = Object.assign(itemInfos[i], checkItem(floorArr, param[0], param[1], i, itemInfos))
+    // console.log(tmp)
+    itemInfos[i] = tmp
+  }
+  itemInfos.shift()
+
+  console.log(itemInfos)
+
+  let out = [], count  = 0
+  while (count < 9){
+    for(let i = 0; i < itemInfos.length; i++){
+      // console.log(Object.keys(itemInfos[i].obj))
+      if(Object.keys(itemInfos[i].obj).length == 1){
+        out.push({
+          item: itemInfos[i].item,
+          xpos: itemInfos[i].xpos,
+          ypos: itemInfos[i].ypos,
+        })
+        itemInfos.forEach(item => delete(item.obj[itemInfos[i].item]))
+        itemInfos.splice(i, 1)
+        break
+      }
+    }
+    count ++
+  }
+  console.log(out.reverse().map(d => `${d.item} ${d.xpos + 1} ${d.ypos+1}`).join('\n'))
+
+});
+
+const checkItem = (floorArr, floorSize, itemSize,  item, itemInfos) => {
+  if(itemInfos[item].count > 0) {
+    for(let i = 0; i <= floorSize - itemSize; i ++){
+      for(let j = 0; j <= floorSize - itemSize; j++){
+        let obj = checkRect(floorArr, itemSize, j, i)
+        if(obj[item] == itemInfos[item].count && !obj['.']){
+          // console.log(i, j)
+          return {
+            xpos: j,
+            ypos: i,
+            obj: obj
+          }
+        }
+      }
+    }
+  } else {
+    for(let i = 0; i <= floorSize - itemSize; i ++){
+      for(let j = 0; j <= floorSize - itemSize; j++){
+        let obj = checkRect(floorArr, itemSize, j, i)
+        if(!obj['.']){
+          // console.log(i, j)
+          return {
+            xpos: j,
+            ypos: i,
+            obj: obj
+          }
+        }
+      }
+    }
+  }
+
+}
+
+const checkRect = (floorArr, itemSize, x, y) => {
+  let obj = {}
+  for(let i = y; i < y + itemSize; i++){
+    for(let j = x; j < x + itemSize; j++){
+      let item = floorArr[i][j]
+      obj[item] ? obj[item] ++ : obj[item] = 1
+    }
+  }
+  return obj
+}

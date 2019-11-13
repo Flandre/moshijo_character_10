@@ -24,7 +24,7 @@ const searchABC = (level, index) => {
   if(level == 1){
     return 'ABC'[index]
   } else {
-    let lenPre = levelLength(level - 1), len = levelLength(level)
+    let lenPre = levelLength(level - 1)
     if(index == 0) return 'A'
     else if(index > 0 && index < 1 + lenPre) return searchABC(level - 1, index - 1)
     else if(index == 1 + lenPre) return 'B'
