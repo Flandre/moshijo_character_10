@@ -38,7 +38,7 @@ function run(la){
   // console.log(n,m,s);
   var mm=[];
   for(var i=1;i<=s;i++){
-    mm[i]={g:0,l:9,r:0,u:9,d:0};
+    mm[i]={g:0,l:100,r:0,u:100,d:0};
   }
   for(var i=0;i<n;i++){
     for(var j=0;j<n;j++){
