@@ -38,7 +38,7 @@ reader.on('close', () => {
     // console.log(tmp)
     itemInfos[i] = tmp
   }
-  // console.log(JSON.stringify(itemInfos))
+  // console.log(JSON.parse(JSON.stringify(itemInfos)))
   // console.log(itemInfos)
   itemInfos.shift()
 
@@ -77,7 +77,7 @@ reader.on('close', () => {
         itemInfos.forEach(item => delete(item.obj[itemInfos[i].item]))
         itemInfos[i].destory = true
         // console.log('===========')
-        // console.log(itemInfos)
+        // console.log(JSON.parse(JSON.stringify(itemInfos)))
         // itemInfos.splice(i, 1)
         break
       }
@@ -95,36 +95,35 @@ reader.on('close', () => {
 });
 
 const checkItem = (floorArr, floorSize, itemSize,  item, itemInfos) => {
+  let tmp
   if(itemInfos[item].count > 0) {
     for(let i = 0; i <= floorSize - itemSize; i ++){
       for(let j = 0; j <= floorSize - itemSize; j++){
         let obj = checkRect(floorArr, itemSize, j, i)
         if(obj[item] == itemInfos[item].count && !obj['.']){
           // console.log(i, j)
-          return {
-            xpos: j,
-            ypos: i,
-            obj: obj
+          if(tmp){
+            if(Object.keys(tmp.obj).length > Object.keys(obj).length) {
+              tmp = {
+                xpos: j,
+                ypos: i,
+                obj: obj
+              }
+            }
+          } else {
+            tmp = {
+              xpos: j,
+              ypos: i,
+              obj: obj
+            }
           }
         }
       }
     }
   } else {
-    for(let i = 0; i <= floorSize - itemSize; i ++){
-      for(let j = 0; j <= floorSize - itemSize; j++){
-        let obj = checkRect(floorArr, itemSize, j, i)
-        if(!obj['.']){
-          // console.log(i, j)
-          return {
-            xpos: j,
-            ypos: i,
-            obj: obj
-          }
-        }
-      }
-    }
+    return {}
   }
-
+  return tmp
 }
 
 const checkRect = (floorArr, itemSize, x, y) => {
