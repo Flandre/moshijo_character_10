@@ -18,8 +18,6 @@ reader.on('close', () => {
       count: 0,
       xpos: 0,
       ypos: 0,
-      upArr: [],
-      upOpt: {}
     }
   })
   for(let i = 1; i <= param[0]; i ++){
@@ -40,28 +38,59 @@ reader.on('close', () => {
     // console.log(tmp)
     itemInfos[i] = tmp
   }
+  // console.log(JSON.stringify(itemInfos))
+  // console.log(itemInfos)
   itemInfos.shift()
 
-  console.log(itemInfos)
+  // console.log(JSON.stringify(itemInfos))
+  // console.log(itemInfos)
 
-  let out = [], count  = 0
-  while (count < 9){
+  /* empty */
+  let empty = [], normal = []
+  for(let i = 0; i < itemInfos.length; i ++) {
+    if(itemInfos[i].count == 0) {
+      empty.push(itemInfos[i])
+    } else {
+      normal.push(itemInfos[i])
+    }
+  }
+
+  // console.log('infos')
+  // console.log(normal)
+  // console.log('empty')
+  // console.log(empty)
+  itemInfos = normal
+
+  let out = [], count = 0
+
+  // console.log(itemInfos.length)
+  while (itemInfos.length > count){
+    // console.log(count)
     for(let i = 0; i < itemInfos.length; i++){
       // console.log(Object.keys(itemInfos[i].obj))
-      if(Object.keys(itemInfos[i].obj).length == 1){
+      if(Object.keys(itemInfos[i].obj).length == 1 && !itemInfos[i].destory){
         out.push({
           item: itemInfos[i].item,
           xpos: itemInfos[i].xpos,
           ypos: itemInfos[i].ypos,
         })
         itemInfos.forEach(item => delete(item.obj[itemInfos[i].item]))
-        itemInfos.splice(i, 1)
+        itemInfos[i].destory = true
+        // console.log('===========')
+        // console.log(itemInfos)
+        // itemInfos.splice(i, 1)
         break
       }
     }
     count ++
+    // console.log(JSON.stringify(itemInfos))
+    // console.log(itemInfos)
   }
-  console.log(out.reverse().map(d => `${d.item} ${d.xpos + 1} ${d.ypos+1}`).join('\n'))
+  out.reverse()
+  out.splice(out.length - 1, 0, ...empty.map(d => Object.assign(d, {xpos: out[out.length-1].xpos, ypos: out[out.length - 1].ypos})))
+
+  // console.log(out)
+  console.log(out.map(d => `${d.item} ${d.xpos + 1} ${d.ypos + 1}`).join('\n'))
 
 });
 
