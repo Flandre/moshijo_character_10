@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    * {
+      border: 0;
+      padding: 0;
+      margin: 0;
+    }
+    body {
+      display: flex;
+    }
+    .chart-border {
+      padding: 30px;
+      border: 1px solid;
+      margin: 20px auto;
+      display: inline-block;
+    }
+    .chart-main {
+      width: 800px;
+      height: 500px;
+      position: relative;
+    }
+    .chart-main .x-axis{
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      border-bottom: 1px solid;
+      transition: .3s;
+    }
+    .chart-main .y-axis{
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      border-left: 1px solid;
+    }
+    .chart-main .item{
+      width: 40px;
+      position: absolute;
+      background: #eee;
+      transition: .3s;
+    }
+    .chart-main .item-label{
+      position: absolute;
+      font-size: 12px;
+      transition: .3s;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chart-border">
+  <div class="chart-main">
+    <div class="item item-0"></div>
+    <div class="item item-1"></div>
+    <div class="item item-2"></div>
+    <div class="item item-3"></div>
+    <div class="item item-4"></div>
+    <div class="item item-5"></div>
+    <div class="item item-6"></div>
+    <div class="item item-7"></div>
+    <div class="item item-8"></div>
+    <div class="item item-9"></div>
+    <div class="item item-10"></div>
+    <div class="item item-11"></div>
+    <div class="item item-12"></div>
+    <div class="item item-13"></div>
+    <div class="item item-14"></div>
+    <div class="item item-15"></div>
+    <p class="item-label item-label-0"></p>
+    <p class="item-label item-label-1"></p>
+    <p class="item-label item-label-2"></p>
+    <p class="item-label item-label-3"></p>
+    <p class="item-label item-label-4"></p>
+    <p class="item-label item-label-5"></p>
+    <p class="item-label item-label-6"></p>
+    <p class="item-label item-label-7"></p>
+    <p class="item-label item-label-8"></p>
+    <p class="item-label item-label-9"></p>
+    <p class="item-label item-label-10"></p>
+    <p class="item-label item-label-11"></p>
+    <p class="item-label item-label-12"></p>
+    <p class="item-label item-label-13"></p>
+    <p class="item-label item-label-14"></p>
+    <p class="item-label item-label-15"></p>
+
+    <div class="x-axis"></div>
+    <div class="y-axis"></div>
+  </div>
+</div>
+
+<button onclick="start()">click</button>
+
+<script>
+  const CHUNK_WIDTH = 40, CHUNK_MARGIN = 10, HEIGHT = 500
+  let data = [
+    {weight: 2,label: 'item-0', count: 50, color: '#eee', id: 0},
+    {weight: 2,label: 'item-1', count: 50, color: '#eee', id: 1},
+    {weight: 2,label: 'item-2', count: 50, color: '#eee', id: 2},
+    {weight: 2,label: 'item-3', count: 50, color: '#eee', id: 3},
+    {weight: 2,label: 'item-4', count: 50, color: '#eee', id: 4},
+    {weight: 2,label: 'item-5', count: 50, color: '#eee', id: 5},
+    {weight: 1,label: 'item-6', count: 50, color: '#ddf', id: 6},
+    {weight: 1,label: 'item-7', count: 50, color: '#ddf', id: 7},
+    {weight: 2,label: 'item-8', count: 50, color: '#eee', id: 8},
+    {weight: 2,label: 'item-9', count: 50, color: '#eee', id: 9},
+    {weight: 2,label: 'item-10', count: 50, color: '#eee', id: 10},
+    {weight: 2,label: 'item-11', count: 50, color: '#eee', id: 11},
+    {weight: 2,label: 'item-12', count: 50, color: '#eee', id: 12},
+    {weight: 2,label: 'item-13', count: 200, color: '#daa', id: 13},
+    {weight: 2,label: 'item-14', count: 200, color: '#daa', id: 14},
+    {weight: 1,label: 'item-15', count: 200, color: '#dda', id: 15},
+    ]
+
+  function render() {
+    let max = Math.max(...data.map(d => d.count))
+    let min = Math.min(...data.map(d => d.count))
+    let baseH
+    if(min < 0){
+       baseH = HEIGHT / (max - min)
+      /* update x-axis */
+      document.querySelector('.x-axis').style.bottom = `${- min * baseH}px`
+    } else {
+      baseH = HEIGHT / max
+      /* update x-axis */
+      document.querySelector('.x-axis').style.bottom = `0`
+    }
+
+    data.forEach((item, index) => {
+      let itemCount = parseInt(item.count),
+        left = (CHUNK_MARGIN + CHUNK_WIDTH) * index,
+        top = itemCount > 0 ? (max - itemCount) * baseH : max * baseH,
+        dom = document.querySelector(`.item-${item.id}`),
+        label = document.querySelector(`.item-label-${item.id}`)
+      // console.log(item.id)
+      dom.style.left = `${left}px`
+      dom.style.top = `${top}px`
+      dom.style.height = `${Math.abs(itemCount) * baseH}px`
+      dom.style.background = item.color
+      label.innerHTML = `${item.label}<br>${itemCount}`
+      label.style.left = `${left}px`
+      if(itemCount > 0){
+        label.style.top = `${top - 30}px`
+      } else {
+        label.style.top = `${top - itemCount * baseH}px`
+      }
+    })
+
+  }
+  render()
+
+  const run = () => {
+    data.forEach((d, i) => {
+      for(let j = 0; j < d.weight; j++){
+        data[i].count --
+        data[(i + 1 + ~~(Math.random() * (data.length - 2))) % data.length].count ++
+      }
+    })
+    data.sort((a, b) => a.count - b.count)
+    render()
+  }
+
+  let startFlag = false, interval, count = 0
+  const start = () => {
+    if(!startFlag) {
+      interval = setInterval(() => {
+        count ++
+        console.log(count)
+        run()
+      }, 100)
+    } else {
+      clearInterval(interval)
+    }
+    startFlag = !startFlag
+  }
+</script>
+
+</body>
+</html>
